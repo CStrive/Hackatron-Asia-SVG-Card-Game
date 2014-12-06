@@ -1,3 +1,4 @@
 *.pyc
 server/*.pyc
 server/main/*.pyc
+*.rdb
