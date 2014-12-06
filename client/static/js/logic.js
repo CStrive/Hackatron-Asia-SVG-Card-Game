@@ -1,5 +1,6 @@
 // Deal cards
 startGame();
+
 // Open respective cards, close after start of play
 
 // Do until deck is empty
@@ -30,6 +31,32 @@ if(drawnCard == 'K') {
 }
 
 // Jump to set player turn state
+
+// Decide winner by comparing total of hand values
+var p1HandValue = computeHandValue(player1Hand);
+var p2HandValue = computeHandValue(player2Hand);
+
+if (p1HandValue < p2HandValue) {
+	console.log("P1 wins!");
+} else if (p1HandValue > p2HandValue) {
+	console.log("P2 wins!");
+} else {
+	console.log("Tie!");
+}
+
+function computeHandValue(hand) {
+	var value = 0;
+	for (var i = 0; i < 3; i++) {
+		if (hand[i]['rank'] == 'A') {
+			value = value + 1;
+		} else if (hand[i]['rank'] == 'J' || hand[i]['rank'] == 'Q' || hand[i]['rank'] == 'K') {
+			value = value + 10;
+		} else {
+			value = value + parseInt(hand[i]['rank']);	
+		}	
+	}
+	return value;
+}
 
 function closeFace(id) {
 	// Replace with a close card image
