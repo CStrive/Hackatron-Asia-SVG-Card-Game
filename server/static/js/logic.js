@@ -19,8 +19,6 @@ $('#draw').attr("disabled", false);
 var player2Name = localStorage.getItem("nickname");
 var player1Name = '';
 
-$("#player1NameDisplay").text(player1Name);
-$("#player2NameDisplay").text(player2Name);
 
 socket.on('start', function(msg) {
 	data = msg['data'];
@@ -48,6 +46,10 @@ socket.on('start', function(msg) {
 
 	showP1Hand();
 	showP2Hand();
+
+	// Display player names
+	$("#player1NameDisplay").text(player1Name);
+	$("#player2NameDisplay").text(player2Name);
 });
 
 
