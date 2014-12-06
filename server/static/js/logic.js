@@ -4,6 +4,27 @@ $('#draw').attr("disabled", false);
 //firstDrawnCard = doDrawCard()['rank'];
 // Show card, with possible actions
 // Implement actions
+
+var player2Name = localStorage.getItem("nickname");
+console.log(player2Name);
+var player1Name = '';
+
+socket.on('start', function(data) {
+	if(data[0]['name'] == player2Name) {
+		player2Hand = data[0]['cards'];
+		player1Hand = data[1]['cards'];
+		player1Name = data[1]['name'];
+	}
+	else {
+		player2Hand = data[1]['cards'];
+		player1Hand = data[0]['cards'];
+		player1Name = data[0]['name'];
+	}
+
+	showP1Hand();
+	showP2Hand();
+});
+
 var clientActions = function(action) {
 	var discardedCard = {};
 	var	data = {};
@@ -57,17 +78,20 @@ var serverOrders = function() {
 		
 		switch(data['options']['rank']) {
 			case 'K':
-				var n = noty({text: 'Your Opponent has viewed his cards', layout: 'top', type:'information'});
+				var text1 = player1Name+' has viewed his cards';
+				var n = noty({text: text1, layout: 'top', type:'information'});
 				break;
 			case 'Q':
-				var text2 = "Your opponent has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
+				var text2 = player1Name+" has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
 				var n = noty({text: text2, layout: 'top', type:'information'});
 				break;
 			case 'J':
-				var n = noty({text: 'Your Opponent has shuffled your cards', layout: 'top', type:'information'});
+				var text3 = player1Name+' has shuffled your cards';
+				var n = noty({text: text3, layout: 'top', type:'information'});
 				break;
 			case '10':
-				var n = noty({text: 'Your Opponent has viewed your cards', layout: 'top', type:'information'});
+				var text4 = player1Name +' has viewed your cards';
+				var n = noty({text: text4, layout: 'top', type:'information'});
 				break;
 		}
 	});
