@@ -16,28 +16,40 @@ $('#draw').attr("disabled", false);
 //firstDrawnCard = doDrawCard()['rank'];
 // Show card, with possible actions
 // Implement actions
-
 var player2Name = localStorage.getItem("nickname");
 var player1Name = '';
 
 $("#player1NameDisplay").text(player1Name);
 $("#player2NameDisplay").text(player2Name);
 
-socket.on('start', function(data) {
+socket.on('start', function(msg) {
+	data = msg['data'];
 	if(data[0]['name'] == player2Name) {
-		player2Hand = data[0]['cards'];
-		player1Hand = data[1]['cards'];
+
+		for(var i=0; i<3;i++) {
+			player2Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+		}
+
+		for(var i=0; i<3;i++) {
+			player1Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+		}
 		player1Name = data[1]['name'];
 	}
 	else {
-		player2Hand = data[1]['cards'];
-		player1Hand = data[0]['cards'];
+		for(var i=0; i<3;i++) {
+			player2Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+		}
+
+		for(var i=0; i<3;i++) {
+			player1Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+		}
 		player1Name = data[0]['name'];
 	}
 
 	showP1Hand();
 	showP2Hand();
 });
+
 
 var clientActions = function(action) {
 	console.log("client action was triggered");
@@ -83,7 +95,6 @@ var clientActions = function(action) {
 	console.log(data);
 	socket.emit('readaction', data);
 }
-
 var serverOrders = function() {
 	// Perfrom requested action
 	socket.on('operation', function(data) {
@@ -91,7 +102,7 @@ var serverOrders = function() {
 		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 		if(data['name'] == 'updateDeckAndPool') {
 			popCardFromDeck(data['options']['rank'], data['options']['suit']);
-			updateTopOfPool(data['options']['rank'], data['options']['suit']);
+			updateTopOfPool(data['options']['rank'], data['options']['suit']);	
 		}
 		
 		switch(data['options']['rank']) {
@@ -114,7 +125,6 @@ var serverOrders = function() {
 		}
 	});
 }
-
 function closeFace(id) {
 	// Replace with a close card image
 	closeCard(id);

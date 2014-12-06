@@ -3,7 +3,7 @@ from flask.ext.socketio import emit, join_room, leave_room
 from .. import socketio, redis
 from random import shuffle
 from functions import Cards
-import json
+import json, uuid
 
 players = []
 defaultRoom = str(0)
@@ -18,7 +18,8 @@ def socketConnect():
 @socketio.on('setnickname', namespace='/svg')
 def socketSetName(user):
 	session['name'] = user['name']
-	session['room'] = defaultRoom
+	session['room'] = findAvailableRoom()
+	print "room: " + session['room']
 	addUserToRoom(session['name'], session['room'])
 	join_room(session['room'])
 	gameStart(session['room'])
@@ -29,6 +30,14 @@ def socketDisconnect():
 	# leave_room(session['room'])
 	if players.count(request.namespace) != 0:
 		players.remove(request.namespace)
+
+
+def findAvailableRoom():
+	allRooms = list( redis.smembers("ROOM") )
+	for eachRoom in allRooms:
+		if isRoomFull(eachRoom) == False:
+			return eachRoom
+	return str(uuid.uuid4())
 
 
 
@@ -49,7 +58,7 @@ def readActionPerformed(data):
 	elif isDroppedCardFaceCards(data['discardedCard']['rank']) == True:
 		# Perform operations for face cards
 		print "Discarding face card"
-		responseData = createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName)
+		responseData = createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName, 1)
 
 	else:
 		# Discarded card is a normal card. Hence a swap has happened
@@ -72,15 +81,18 @@ def isDrawnCardDiscarded(discardedCard, drawnCard):
 
 
 def createResponseDataDiscardDrawn(playerName, svgroom, data, nextPlayerName):
-	responseData = {}
-	responseData['name'] = "updateDeckAndPool"
-	responseData['turn'] = playerName
-	responseData['nextturn'] = nextPlayerName
-	responseData['options'] = data['discardedCard']
+	if isDroppedCardFaceCards(data['discardedCard']['rank']) == True:
+		return createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName, 0)
+	else:
+		responseData = {}
+		responseData['name'] = "updateDeckAndPool"
+		responseData['turn'] = playerName
+		responseData['nextturn'] = nextPlayerName
+		responseData['options'] = data['discardedCard']
 
-	cards = json.loads( redis.hget("USER_CARDS", playerName) )
-	responseData['cards'] = cards['cards']
-	return responseData
+		cards = json.loads( redis.hget("USER_CARDS", playerName) )
+		responseData['cards'] = cards['cards']
+		return responseData
 
 
 # Swap cards and create response data
@@ -98,16 +110,16 @@ def createResponseDataSwapCard(playerName, svgroom, data, nextPlayerName):
 
 
 # For discarded card as face card perform relevant operations
-def createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName):
+def createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName, swap):
 	cardRank = data['discardedCard']['rank']
 	if cardRank == '10':
-		responseData = returnOpponentCards(playerName, svgroom, data, nextPlayerName)
+		responseData = returnOpponentCards(playerName, svgroom, data, nextPlayerName, swap)
 	elif cardRank == 'J':
-		responseData = returnShuffleOpponent(playerName, svgroom, data, nextPlayerName)
+		responseData = returnShuffleOpponent(playerName, svgroom, data, nextPlayerName, swap)
 	elif cardRank == 'Q':
-		responseData = returnExchangeCards(playerName, svgroom, data, nextPlayerName)
+		responseData = returnExchangeCards(playerName, svgroom, data, nextPlayerName, swap)
 	elif cardRank == 'K':
-		responseData = returnSelfCards(playerName, svgroom, data, nextPlayerName)
+		responseData = returnSelfCards(playerName, svgroom, data, nextPlayerName, swap)
 	else:
 		responseData = {}
 
@@ -115,12 +127,15 @@ def createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName):
 
 
 # Operation for K
-def returnSelfCards(playerName, svgroom, data, nextPlayerName):
+def returnSelfCards(playerName, svgroom, data, nextPlayerName, swap):
 	responseData = {}
 	responseData['name'] = "updateDeckAndPool"
 	responseData['turn'] = playerName
 	responseData['nextturn'] = nextPlayerName
 	responseData['options'] = data['discardedCard']
+
+	if swap == 1:
+		swapCard(playerName, svgroom, data['position'], data['drawnCard'])
 
 	cards = json.loads( redis.hget("USER_CARDS", playerName) )
 	responseData['cards'] = cards['cards']
@@ -131,12 +146,15 @@ def returnSelfCards(playerName, svgroom, data, nextPlayerName):
 
 
 # Operation for Q
-def returnExchangeCards(playerName, svgroom, data, nextPlayerName):
+def returnExchangeCards(playerName, svgroom, data, nextPlayerName, swap):
 	responseData = {}
 	responseData['name'] = "updateDeckAndPool"
 	responseData['turn'] = playerName
 	responseData['nextturn'] = nextPlayerName
 	responseData['options'] = data['discardedCard']
+
+	if swap == 1:
+		swapCard(playerName, svgroom, data['position'], data['drawnCard'])
 
 	# using nextPlayerName here only for 2 player
 	exchangeCards(playerName, data['position'], nextPlayerName, data['opponentPosition'])
@@ -151,12 +169,15 @@ def returnExchangeCards(playerName, svgroom, data, nextPlayerName):
 
 
 # Operation for J
-def returnShuffleOpponent(playerName, svgroom, data, nextPlayerName):
+def returnShuffleOpponent(playerName, svgroom, data, nextPlayerName, swap):
 	responseData = {}
 	responseData['name'] = "updateDeckAndPool"
 	responseData['turn'] = playerName
 	responseData['nextturn'] = nextPlayerName
 	responseData['options'] = data['discardedCard']
+
+	if swap == 1:
+		swapCard(playerName, svgroom, data['position'], data['drawnCard'])
 
 	# using nextPlayerName here only for 2 player
 	shuffleCards(nextPlayerName)
@@ -169,12 +190,15 @@ def returnShuffleOpponent(playerName, svgroom, data, nextPlayerName):
 
 
 # Operation for 10
-def returnOpponentCards(playerName, svgroom, data, nextPlayerName):
+def returnOpponentCards(playerName, svgroom, data, nextPlayerName, swap):
 	responseData = {}
 	responseData['name'] = "updateDeckAndPool"
 	responseData['turn'] = playerName
 	responseData['nextturn'] = nextPlayerName
 	responseData['options'] = data['discardedCard']
+
+	if swap == 1:
+		swapCard(playerName, svgroom, data['position'], data['drawnCard'])
 
 	# using nextPlayername here only for 2 player
 	cards = json.loads( redis.hget("USER_CARDS", nextPlayerName) )
@@ -281,6 +305,7 @@ def gameStart(svgroom):
 		redis.hset("USER_CARDS", player['name'], json.dumps({'cards':player['cards']}) )
 		cardsAndPlayers.append(player)
 	
+	print "start game: " + json.dumps({'data':cardsAndPlayers})
 	emit('start', {'data':cardsAndPlayers}, room=svgroom)
 
 
@@ -312,12 +337,15 @@ def isRoomFull(svgroom):
 
 
 def addUserToRoom(name, svgroom):
+	if redis.sismember("ROOM", svgroom) == False:
+		redis.sadd("ROOM", svgroom)
 	redisKey = "ROOM_" + svgroom
 	if redis.scard(redisKey) < NUM_PLAYERS_ROOM:
 		redis.sadd(redisKey, name)
 
 
 def endGame(svgroom):
+	redis.srem("ROOM", svgroom)
 	redisKey = "ROOM_" + svgroom
 	orderPlayers = getOrderOfPlay(svgroom)
 
