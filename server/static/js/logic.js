@@ -65,14 +65,16 @@ var clientActions = function(action) {
 	// c. Special cases
 	switch(discardedCard['rank']) {
 		case '10':
-			showP1Hand();
+			data['specialCard'] = '10';
 			break;
 		case 'J':
+			data['specialCard'] = 'J';
 			break;
 		case 'Q':
+			data['specialCard'] = 'Q';
 			break;
 		case 'K':
-			showP2Hand();
+			data['specialCard'] = 'K';
 			break;
 	}
 	
@@ -84,11 +86,9 @@ var serverOrders = function() {
 	socket.on('operation', function(data) {
 		// Call respective functions
 		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
-		switch(data['name']) {
-			case 'updateDeckAndPool':
+		if(data['name'] == 'updateDeckAndPool') {
 				popCardFromDeck(data['options']['rank'], data['options']['suit']);
-				updateTopOfPool(data['options']['rank'], data['options']['suit']);		
-				break;
+				updateTopOfPool(data['options']['rank'], data['options']['suit']);
 		}
 		
 		switch(data['options']['rank']) {
