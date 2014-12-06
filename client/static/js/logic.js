@@ -3,7 +3,6 @@
 // Disable button when opponent's turn
 $('#draw').attr("disabled", false);
 firstDrawnCard = doDrawCard()['rank'];
-
 // Show card, with possible actions
 
 // Implement actions
@@ -46,7 +45,7 @@ var clientActions = function(action) {
 
 var serverOrders = function() {
 	// Perfrom requested action
-	socket.on('clientMethod', function(data)) {
+	socket.on('clientMethod', function(data) {
 		// Call respective functions
 		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 		switch(data['name']) {
@@ -56,10 +55,21 @@ var serverOrders = function() {
 				break;
 		}
 		
-		// 2a. King. Notify which player saw their cards.
-		// 2b. Queen. Notify which card is swapped
-		// 2c. Jack. Notify that cards were shuffled
-		// 2d. 10. Notify that player's cards were shuffled
+		switch(data['options']['rank']) {
+			case 'K':
+				var n = noty({text: 'Your Opponent has viewed his cards', layout: 'top', type:'information'});
+				break;
+			case 'Q':
+				var text2 = "Your opponent has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
+				var n = noty({text: text2, layout: 'top', type:'information'});
+				break;
+			case 'J':
+				var n = noty({text: 'Your Opponent has shuffled your cards', layout: 'top', type:'information'});
+				break;
+			case '10':
+				var n = noty({text: 'Your Opponent has viewed your cards', layout: 'top', type:'information'});
+				break;
+		}
 	});
 }
 
