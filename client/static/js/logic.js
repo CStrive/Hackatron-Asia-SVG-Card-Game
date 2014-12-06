@@ -28,6 +28,18 @@ var serverOrder = function() {
 
 }
 
+var serverOrders = function() {
+	// Perfrom requested action
+	socket.on('clientMethod', function(data)) {
+		// Call respective functions
+		// 1. Delete drawn card
+		// 2. Update top of pool card
+		// 3a. King. Notify which player saw their cards.
+		// 3b. Queen. Notify which card is swapped
+		// 3c. Jack. Notify that cards were shuffled
+		// 3d. 10. Notify that player's cards were shuffled
+	});
+}
 
 function closeFace(id) {
 	// Replace with a close card image
