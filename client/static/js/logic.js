@@ -35,3 +35,12 @@ function closeFace(id) {
 	// Replace with a close card image
 	closeCard(id);
 }
+
+function popCardFromDeck(rank, suit) {
+	var tempCard = playingCards.card(rank, suit);
+	for (var i = 0; i<cardDeck['cards'].length; i++) {
+		if (cardDeck['cards'][i] != undefined && cardDeck['cards'][i]['rank'] == tempCard['rank'] && cardDeck['cards'][i]['suit'] == tempCard['suit']) {
+			delete cardDeck['cards'][i];
+		}
+	}
+}
