@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var hand = [];
     var player1Hand =[];
     var player2Hand =[];
-
+	var drawnCards = [];
 	var showError = function(msg){
         $('#error').html(msg).show();
         setTimeout(function(){
@@ -12,11 +12,9 @@ $(document).ready(function() {
         },3000);
     }
     var showHand = function(){
-        var el = $('#yourHand')
+        var el = $('#yourHand');
         el.html('');
-        for(var i=0;i<hand.length;i++){
-            el.append(hand[i].getHTML());
-        }
+        el.append(hand[hand.length-1].getHTML());
     }
 	var doDrawCard = function(){
         var c = cardDeck.draw();
