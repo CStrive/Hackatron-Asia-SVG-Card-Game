@@ -144,15 +144,17 @@ $('#draw').button().click(doDrawCard);
 
 //--------------------------------------------
 // Decide winner by comparing total of hand values
-var p1HandValue = computeHandValue(player1Hand);
-var p2HandValue = computeHandValue(player2Hand);
+function decideWinner() {
+    var p1HandValue = computeHandValue(player1Hand);
+    var p2HandValue = computeHandValue(player2Hand);
 
-if (p1HandValue < p2HandValue) {
-    console.log("P1 wins!");
-} else if (p1HandValue > p2HandValue) {
-    console.log("P2 wins!");
-} else {
-    console.log("Tie!");
+    if (p1HandValue < p2HandValue) {
+        console.log("P1 wins!");
+    } else if (p1HandValue > p2HandValue) {
+        console.log("P2 wins!");
+    } else {
+        console.log("Tie!");
+    }    
 }
 
 function computeHandValue(hand) {
@@ -178,3 +180,7 @@ function popCardFromDeck(rank, suit) {
     }
 }
 
+function updateTopOfPool(rank, suit) {
+    var tempCard = playingCards.card(rank, suit);
+    discardedCards[discardedCards.length] = tempCard;
+}
