@@ -22,8 +22,8 @@ def socketConnect(user):
 @socketio.on('disconnect', namespace='/svg')
 def socketDisconnect():
 	leave_room()
-    if players.count(request.namespace) != 0:
-    	players.remove(request.namespace)
+	if players.count(request.namespace) != 0:
+		players.remove(request.namespace)
 
 
 # Retrieve the cards of the current user and return json
