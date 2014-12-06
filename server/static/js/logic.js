@@ -1,8 +1,3 @@
-// Open respective cards, close after start of play
-// Disable button when opponent's turn
-$('#draw').attr("disabled", false);
-//firstDrawnCard = doDrawCard()['rank'];
-// Show card, with possible actions
 // Implement actions
 var clientActions = function(action) {
 	var discardedCard = {};
