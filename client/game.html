@@ -2,40 +2,36 @@
 <html>
 <head>
   <title>SVG Game</title>
-  <link rel="stylesheet" href="static/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/lib/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
 	<link rel="stylesheet" href="static/css/jquery-ui.theme.min.css">
 </head>
-<body>
+<body style="background: url('static/img/bg.jpg')">
   <div class="container">
     <div class="row">
       <div class="col-xs-10">
-        <h3> SVG Card Game </h3>
-      </div>
-      <div class="col-xs-2">
-        <h3> Game Objects </h3>
+        <h3 style="color:#FFFFFF"> SVG Card Game </h3>
       </div>
     </div>
     <div class="row">
-      <span class="pull-right"> Player 1</span>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player1Card1" onclick="closeFace(document.getElementById('player1Card1'))">
-            <button class="btn btn-default">Card 1</button> 
+          <div class="panel-body" id="player1Card1" style="width: 30%; margin: 0 auto;" onclick="closeFace(document.getElementById('player1Card1'))">
+            <button class="btn btn-default" style="color:#fff">Card 1</button> 
           </div>
         </div>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <div class="panel panel-default" >
-          <div class="panel-body" id="player1Card2" onclick="closeFace(document.getElementById('player1Card2'))">
-            <button class="btn btn-default">Card 2</button>
+          <div class="panel-body" id="player1Card2" style="width: 30%; margin: 0 auto;" onclick="closeFace(document.getElementById('player1Card2'))">
+            <button class="btn btn-default" style="color:#fff">Card 2</button>
           </div>
         </div>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <div class="panel panel-default" >
-          <div class="panel-body" id="player1Card3" onclick="closeFace(document.getElementById('player1Card3'))">
-            <button class="btn btn-default">Card 3</button>
+          <div class="panel-body" id="player1Card3" style="width: 30%; margin: 0 auto;" onclick="closeFace(document.getElementById('player1Card3'))">
+            <button class="btn btn-default" style="color:#fff">Card 3</button>
           </div>
         </div>
       </div>
@@ -43,52 +39,50 @@
 
 
 	<div class="row">
-		<span class="pull-right"> Card Deck </span>
-		<div class="col-xs-3">
+		<div class="col-xs-4">
 			<div class="panel panel-default">
 					<div class="panel-body">
 						<button class="btn btn-default" onclick="">Deck</button>
-						<div id="cardDeck"></div>
+						<div style="width: 25%; margin: 0 auto;" id="cardDeck"></div>
 						
 					</div>
 			</div>
 		</div>
-		<div class="col-xs-3">
+		<div class="col-xs-4">
 			<div class="panel panel-default">
 				<div class="panel-body">
-						<span> Drawn Card </span>
-						<div id="yourHand" ></div>
+						<span style="color:#fff"> Drawn Card </span>
+						<div style="width: 25%; margin: 0 auto;" id="yourHand" ></div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-3">
+		<div class="col-xs-4">
 			<div class="panel panel-default">
 				<div class="panel-body">
-						<span> Discarded Cards </span>
-						<div id="discardedCards" onclick="swapCard(-1)"></div>
+						<span style="color:#fff"> Discarded Cards </span>
+						<div style="width: 25%; margin: 0 auto;" id="discardedCards" onclick="swapCard(-1)"></div>
 				</div>
 			</div>
 		</div>
 	</div>
     <div class="row">
-      <span class="pull-right"> Player 2</span>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card1" onclick="swapCard(0)">
+          <div class="panel-body" id="player2Card1" style="width: 30%; margin: 0 auto;" onclick="swapCard(0)">
             <button class="btn btn-default" onclick="">Card 1</button>
           </div>
         </div>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card2" onclick="swapCard(1)">
+          <div class="panel-body" id="player2Card2" style="width: 30%; margin: 0 auto;" onclick="swapCard(1)">
             <button class="btn btn-default" onclick="">Card 2</button>
           </div>
         </div>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card3" onclick="swapCard(2)">
+          <div class="panel-body" id="player2Card3" style="width: 30%; margin: 0 auto;" onclick="swapCard(2)">
             <button class="btn btn-default" onclick="">Card 3</button>
           <!--<div class="panel-body" id="player2Card3" onclick="closeFace(document.getElementById('player2Card3'))">
             <button class="btn btn-default">Card 3</button>-->
@@ -97,7 +91,7 @@
       </div>
     </div>
     <div class="row">
-	    <div class="col-xs-offset-6 col-xs-3">
+	    <div class="col-xs-offset-5 col-xs-4">
     	  	<input type="button" id="draw" value="draw a card" />
 			<input type="button" id="startGame" value="Start" />
 		</div>
@@ -110,5 +104,5 @@
 <script type="text/javascript" src="static/js/playingCards.ui.js"></script>
 <script type="text/javascript" src="static/js/showDeck.js"></script>
 <script type="text/javascript" src="static/js/logic.js"></script>
-<!-- <script type="text/javascript" src="static/js/cards.js"></script> -->
+<!-- <script type="text/javascript" src="static/js/cards.js"5</script> -->
 </html>

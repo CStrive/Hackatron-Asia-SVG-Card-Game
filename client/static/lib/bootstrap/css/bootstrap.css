@@ -5059,15 +5059,17 @@ a.list-group-item-danger.active:focus {
 }
 .panel {
   margin-bottom: 20px;
-  background-color: #fff;
+  background-color: #000;
+  background-color: rgba(0, 0, 0, .80);
   border: 1px solid transparent;
   border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .5);
+          box-shadow: 0 2px 2px rgba(0, 0, 0, .5);
 }
 .panel-body {
   padding: 15px;
 }
+
 .panel-heading {
   padding: 10px 15px;
   border-bottom: 1px solid transparent;
