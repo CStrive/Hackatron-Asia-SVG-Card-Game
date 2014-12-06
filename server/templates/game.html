@@ -56,9 +56,9 @@
 		</div>
 		<div class="col-xs-4">
 			<div class="panel panel-default">
-				<div class="panel-body">
+				<div class="panel-body" onclick="clientActions({'name':'swap', 'id':-1})">
 						<span style="color:#fff"> Discarded Cards </span>
-						<div style="width: 25%; margin: 0 auto;" id="discardedCards" onclick="clientActions({'name':'swap', 'id':-1})"></div>
+						<div style="width: 25%; margin: 0 auto;" id="discardedCards"></div>
 				</div>
 			</div>
 		</div>
@@ -90,7 +90,7 @@
     </div>
     <div class="row">
 	    <div class="col-xs-offset-5 col-xs-4">
-			<input type="button" id="startGame" value="Start" />
+			<button class="btn btn-default" id="startGame">Start Game</button>
 		</div>
     </div>
     </div>
@@ -102,6 +102,7 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.ui.js') }}"></script>
+<!-- <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script> -->
 <script type="text/javascript">
   var discardedCards = [];
   var drawnCard = null;
