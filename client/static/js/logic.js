@@ -48,12 +48,18 @@ var serverOrders = function() {
 	// Perfrom requested action
 	socket.on('clientMethod', function(data)) {
 		// Call respective functions
-		// 1. Delete drawn card
-		// 2. Update top of pool card
-		// 3a. King. Notify which player saw their cards.
-		// 3b. Queen. Notify which card is swapped
-		// 3c. Jack. Notify that cards were shuffled
-		// 3d. 10. Notify that player's cards were shuffled
+		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
+		switch(data['name']) {
+			case 'updateDeckAndPool':
+				popCardFromDeck(data['options']['rank'], data['options']['suit']);
+				updateTopOfPool(data['options']['rank'], data['options']['suit']);		
+				break;
+		}
+		
+		// 2a. King. Notify which player saw their cards.
+		// 2b. Queen. Notify which card is swapped
+		// 2c. Jack. Notify that cards were shuffled
+		// 2d. 10. Notify that player's cards were shuffled
 	});
 }
 
