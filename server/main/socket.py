@@ -2,6 +2,7 @@ from flask import Flask, render_template, session, request
 from flask.ext.socketio import emit, join_room, leave_room
 from .. import socketio, redis
 from random import shuffle
+from functions import Cards
 
 players = []
 defaultRoom = str(0)
@@ -77,12 +78,14 @@ def swapCard(message):
 	newCards["cards"][removeCard-1]["suit"] = newCardSuit
 	redis.hset("USER_CARDS", session['name'], json.dumps(newCards))
 
-	dropCard(session['room'], currentCards['cards'][removeCard-1]['rank'], currentCards['cards'][removeCard-1]['suits'])
+	discardCard(session['room'], currentCards['cards'][removeCard-1]['rank'], currentCards['cards'][removeCard-1]['suits'])
 	clientRemoveCard(session['name'], session['room'], newCardRank, newCardSuit)
 
 	action = session['name'] + " swapped the card at position " + str(removeCard) + " with the new card"
 	updatePlayerLogs(action, session['room'])
-	informNextPlayerOfTurn(session['name'], session['room'])
+
+	if isDroppedCardFaceCards(currentCards['cards'][removeCard-1]['rank']) == False:
+		informNextPlayerOfTurn(session['name'], session['room'])
 
 
 
@@ -109,11 +112,12 @@ def exchangeCard(message):
 
 	action = session['name'] + " swapped the card at position " + str(userCardNumber) + " with the card at " + str(playerSwapCardNumber) + " belonging to " + playerSwap
 	updatePlayerLogs(action, session['room'])
+
 	informNextPlayerOfTurn(session['name'], session['room'])
 
 
 
-# This function is called when a user gets a Jack
+# This function is called when a user gets a J
 # Shuffle the order of the cards of another user
 # Takes in the player name whose cards are to be swapped
 @socketio.on('shuffle', namespace='/svg')
@@ -133,22 +137,26 @@ def shuffleCards(message):
 	action = session['name'] + " shuffled " + playerToShuffle + "'s cards"
 	updatePlayerLogs(action, session['room'])
 
+	informNextPlayerOfTurn(session['name'], session['room'])
+
 
 
 
 # This function will be called only by the client who is performing the action
 # Function is called when the drawn card is going to be dropped
-@socketio.on('dropcard', namespace='/svg')
+@socketio.on('discardCard', namespace='/svg')
 def cardToBeDropped(message):
-	newCardRank = message['rank']
-	newCardSuit = message['suit']
+	drawnCardRank = message['rank']
+	drawnCardSuit = message['suit']
 
-	dropCard(session['room'], newCardRank, newCardSuit)
-	clientRemoveCard(session['name'], session['room'], newCardRank, newCardSuit)
+	discardCard(session['room'], drawnCardRank, drawnCardSuit)
+	clientRemoveCard(session['name'], session['room'], drawnCardRank, drawnCardSuit)
 
 	action = session['name'] + " dropped the drawn card"
 	updatePlayerLogs(action, session['room'])
-	informNextPlayerOfTurn(session['name'], session['room'])
+
+	if isDroppedCardFaceCards(currentCards['cards'][removeCard-1]['rank']) == False:
+		informNextPlayerOfTurn(session['name'], session['room'])
 
 
 # This function is supposed to send action performed to all players
@@ -167,11 +175,11 @@ def clientRemoveCard(playerName, svgroom, cardRank, cardSuit):
 
 # This function is supposed to inform the other clients of the cards to be removed
 # This is important to maintain the deck in all the clients
-def dropCard(svgroom, cardRank, cardSuit):
+def discardCard(svgroom, cardRank, cardSuit):
 	card = {}
 	card['rank'] = cardRank
 	card['suit'] = cardSuit
-	emit('drop', {'data':card}, room=svgroom)
+	emit('discard', {'data':card}, room=svgroom)
 
 
 # This function will start the game if the number of players in a room is adequate
@@ -190,6 +198,27 @@ def gameStart(svgroom):
 		cardsAndPlayers.append(player)
 	
 	emit('start', {'data':cardsAndPlayers}, room=svgroom)
+
+
+# Create the first 3 cards for all players
+def dealCards(numPlayers):
+	c = Cards()
+	c.deal(numPlayers)
+	c.format_for_client()
+	return c.all_player_cards
+
+
+def isDroppedCardFaceCards(cardRank):
+	if cardRank == '10':
+		return True
+	elif cardRank == 'J':
+		return True
+	elif cardRank == 'Q':
+		return True
+	elif cardRank == 'K':
+		return True
+	else:
+		return False
 
 
 
@@ -230,3 +259,20 @@ def addUserToRoom(name, svgroom):
 
 def endGame(svgroom):
 	redisKey = "ROOM_" + svgroom
+	orderPlayers = getOrderOfPlay(svgroom)
+
+	endGameCards = {}
+
+	for x in range(0, NUM_PLAYERS_ROOM):
+		for player in players:
+			if player.session['name'] == orderPlayers[x]:
+				endGameCards[orderPlayers[x]] = redis.hget("USER_CARDS", player.session['name'])
+				redis.hdel("USER_CARDS", player.session['name'])
+				redis.srem(redisKey, player.session['name'])
+
+	emit('endgame', {'data':endGameCards}, room=svgroom)
+
+	for x in range(0, NUM_PLAYERS_ROOM):
+		for player in players:
+			if player.session['name'] == orderPlayers[x]:
+				player.leave_room()
