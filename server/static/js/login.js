@@ -9,7 +9,4 @@ function storeNickname(nickname) {
         document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
     }
 
-
-    console.log(window.location.href);
-    alert("ok");
 }

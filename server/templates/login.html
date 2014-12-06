@@ -1,0 +1,30 @@
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <legend><h1 align="center">SVG</h1></legend>
+    </div>
+    <br/>
+    <div class="row">
+      <form  action="/game" method="post" class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-4 control-label">Choose a nickname</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" name= "inputNickname" id="inputNickname" placeholder="Nickname">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-10">
+            <button type="submit" class="btn btn-default" onclick="storeNickname(document.getElementById('inputNickname').value)">Play</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
+</html>
