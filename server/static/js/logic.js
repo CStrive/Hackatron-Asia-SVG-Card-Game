@@ -1,3 +1,15 @@
+var namespace = '/svg';
+
+var socket = io.connect('http://' + document.domain + ':' + location.port + namespace, {
+	"connect timeout": 300,
+    "close timeout": 60,
+    "hearbeat timeout": 40,
+    "transports": ["xhr-polling", "jsonp-polling"]
+});
+
+socket.emit('setnickname', {'name':localStorage.getItem("nickname")});
+
+
 // Open respective cards, close after start of play
 // Disable button when opponent's turn
 $('#draw').attr("disabled", false);
@@ -5,6 +17,7 @@ $('#draw').attr("disabled", false);
 // Show card, with possible actions
 // Implement actions
 var clientActions = function(action) {
+	console.log("client action was triggered");
 	var discardedCard = {};
 	var	data = {};
 	data['drawnCard'] = drawnCard;
@@ -41,11 +54,12 @@ var clientActions = function(action) {
 			break;
 	}
 	
-	socket.emit('serverFunction', data);
+	console.log(data);
+	socket.emit('readaction', data);
 }
 var serverOrders = function() {
 	// Perfrom requested action
-	socket.on('clientMethod', function(data) {
+	socket.on('operation', function(data) {
 		// Call respective functions
 		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 		switch(data['name']) {
