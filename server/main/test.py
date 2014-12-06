@@ -1,5 +1,10 @@
 from . import main
+from flask import render_template
 
 @main.route('/')
 def testFunc():
 	return "Test Flask App"
+
+@main.route('/login')
+def login():
+	return render_template('login.html')
