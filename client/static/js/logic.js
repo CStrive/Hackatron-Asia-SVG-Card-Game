@@ -1,14 +1,25 @@
 // Deal cards
 
-// Set respective user cards clickable for 10 secs, then disable click
+// Open respective cards, close after start of play
 
 // Do until deck is empty
 
 // Set player turn state, set other
 
 // Set deck clickable for current player 
+$('#draw').attr("disabled", false);
+drawnCard = doDrawCard()[0]['rank'];
 
 // Show card, with possible actions
+if(drawnCard == 'K') {
+	showP2Hand();
+} else if(drawnCard == 'Q') {
+	// server
+} else if(drawnCard == 'J') {
+	// server
+} else if(drawnCard == '10') {
+	showP1Hand();
+}
 
 // Implement actions
 
