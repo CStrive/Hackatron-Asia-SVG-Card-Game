@@ -1,9 +1,7 @@
 var cardDeck = $("#cardDeck").playingCards();
-
 var hand = [];
 var player1Hand =[];
 var player2Hand =[];
-var drawnCards = [];
 var showError = function(msg){
     $('#error').html(msg).show();
     setTimeout(function(){
@@ -13,7 +11,14 @@ var showError = function(msg){
 var showHand = function(){
     var el = $('#yourHand');
     el.html('');
-    el.append(hand[hand.length-1].getHTML());
+    if(drawnCard!=null){
+        el.append(drawnCard.getHTML());
+    }
+}
+var showDiscardedCards = function(){
+    var el = $('#discardedCards');
+    el.html('');
+    el.append(discardedCards[discardedCards.length-1].getHTML());
 }
 var doDrawCard = function(){
     var c = cardDeck.draw();
@@ -21,17 +26,16 @@ var doDrawCard = function(){
         showError('no more cards');
         return;
     }
-    hand[hand.length] = c;
-    //cardDeck.spread();
+    drawnCard = c;
     showHand();
+    return drawnCard;
 }
 var doShuffle = function(){
     cardDeck.shuffle();
 }
 var doPlayerDrawCard = function(playerHand){
     var c = cardDeck.draw();
-    playerHand[playerHand.length] = c;
-    //showHand();
+    playerHand[playerHand.length] =  c;
 }
 var showP1Hand = function(){
     var card1El = $('#player1Card1');
@@ -40,11 +44,9 @@ var showP1Hand = function(){
     card1El.html('');
     card2El.html('');
     card3El.html('');
-
     card1El.append(player1Hand[0].getHTML());
     card2El.append(player1Hand[1].getHTML());
     card3El.append(player1Hand[2].getHTML());
-
 }
 var showP2Hand = function(){
     var card1El = $('#player2Card1');
@@ -53,34 +55,33 @@ var showP2Hand = function(){
     card1El.html('');
     card2El.html('');
     card3El.html('');
-
     card1El.append(player2Hand[0].getHTML());
     card2El.append(player2Hand[1].getHTML());
     card3El.append(player2Hand[2].getHTML());
 }
-function closeCard() {
+function closeCard(id) {
     var closeCardImage = document.createElement("div");
     closeCardImage.style.width="76px";
     closeCardImage.style.height="100px";
+    closeCardImage.id="closeCardImage";
     closeCardImage.style.backgroundImage="url('static/img/facedowncard.jpg')";
-    var el = $('#yourHand');
+    var el = $(id);
     el.html('');
     el.append(closeCardImage);
 }
 var startGame = function(){
     doShuffle();
-
     doPlayerDrawCard(player1Hand);
     doPlayerDrawCard(player1Hand);
     doPlayerDrawCard(player1Hand);
     doPlayerDrawCard(player2Hand);
     doPlayerDrawCard(player2Hand);
     doPlayerDrawCard(player2Hand);
-
     showP1Hand();
     showP2Hand();
+    $('#startGame').button('disable');
 }
-
+var selectedCard = null;
 var swapCard = function(id) {
     var cardToThrow;
     if(drawnCard != null) {
@@ -88,30 +89,38 @@ var swapCard = function(id) {
             cardToThrow = drawnCard;
         } else {
             cardToThrow = player2Hand[id];
-            console.log(player2Hand);
             player2Hand[id] = drawnCard;
             showP2Hand();
         }
-
         discardedCards[discardedCards.length] = cardToThrow;
         showDiscardedCards();
         drawnCard = null;
         showHand();
     }
+    else {
+        selectedCard = id;
+        cardToThrow = discardedCards[discardedCards.length-1];
+    }
     return cardToThrow;
 }
-
-
+var exchangeCard = function(id) {
+    var tempCard;
+    if(discardedCards[discardedCards.length-1]['rank'] == 'Q') {
+        tempCard = player2Hand[selectedCard];
+        player2Hand[selectedCard] = player1Hand[id];
+        player1Hand[id] = tempCard;
+        showP1Hand();
+        showP2Hand();
+    }
+    return selectedCard;
+}
 $('#startGame').button().click(startGame);
 $('#draw').button().click(doDrawCard);
-
-
 //--------------------------------------------
 // Decide winner by comparing total of hand values
 function decideWinner() {
     var p1HandValue = computeHandValue(player1Hand);
     var p2HandValue = computeHandValue(player2Hand);
-
     if (p1HandValue < p2HandValue) {
         console.log("P1 wins!");
     } else if (p1HandValue > p2HandValue) {
@@ -120,7 +129,6 @@ function decideWinner() {
         console.log("Tie!");
     }    
 }
-
 function computeHandValue(hand) {
     var value = 0;
     for (var i = 0; i < 3; i++) {
@@ -134,7 +142,6 @@ function computeHandValue(hand) {
     }
     return value;
 }
-
 function popCardFromDeck(rank, suit) {
     var tempCard = playingCards.card(rank, suit);
     for (var i = 0; i<cardDeck['cards'].length; i++) {
@@ -143,7 +150,6 @@ function popCardFromDeck(rank, suit) {
         }
     }
 }
-
 function updateTopOfPool(rank, suit) {
     var tempCard = playingCards.card(rank, suit);
     discardedCards[discardedCards.length] = tempCard;

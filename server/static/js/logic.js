@@ -1,33 +1,33 @@
 // Open respective cards, close after start of play
-
 // Disable button when opponent's turn
 $('#draw').attr("disabled", false);
-firstDrawnCard = doDrawCard()['rank'];
-
+//firstDrawnCard = doDrawCard()['rank'];
 // Show card, with possible actions
-
 // Implement actions
 var clientActions = function(action) {
-	var discardedCard,
-		data;
-
+	var discardedCard = {};
+	var	data = {};
 	data['drawnCard'] = drawnCard;
-
 	// 1.Perform action
 	if(action['name'] == 'swap') {
 		discardedCard = swapCard(action['id']);
+	} else if (action['name'] == 'exchange'){
+		discardedCard = discardedCards[discardedCards.length-1];
+		data['position'] = exchangeCard(action['id']);
+		data['opponentPosition'] = action['id'];
 	}
-
+	if (discardedCard['rank'] == 'Q' && action['name'] != 'exchange') {
+		return;
+	}
 	// 2.Inform Server
 	if(action['id'] == -1) {
 		// a. Discard
 		data['discardedCard'] = discardedCard;	
-	} else {
+	} else if (action['name'] == 'swap'){
 		// b. Replace and discard
 		data['discardedCard'] = discardedCard; 
 		data['position'] = action['id'];	
 	}
-
 	// c. Special cases
 	switch(discardedCard['rank']) {
 		case '10':
@@ -43,7 +43,6 @@ var clientActions = function(action) {
 	
 	socket.emit('serverFunction', data);
 }
-
 var serverOrders = function() {
 	// Perfrom requested action
 	socket.on('clientMethod', function(data) {
@@ -56,16 +55,24 @@ var serverOrders = function() {
 				break;
 		}
 		
-		// 2a. King. Notify which player saw their cards.
-		// 2b. Queen. Notify which card is swapped
-		// 2c. Jack. Notify that cards were shuffled
-		// 2d. 10. Notify that player's cards were shuffled
+		switch(data['options']['rank']) {
+			case 'K':
+				var n = noty({text: 'Your Opponent has viewed his cards', layout: 'top', type:'information'});
+				break;
+			case 'Q':
+				var text2 = "Your opponent has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
+				var n = noty({text: text2, layout: 'top', type:'information'});
+				break;
+			case 'J':
+				var n = noty({text: 'Your Opponent has shuffled your cards', layout: 'top', type:'information'});
+				break;
+			case '10':
+				var n = noty({text: 'Your Opponent has viewed your cards', layout: 'top', type:'information'});
+				break;
+		}
 	});
 }
-
 function closeFace(id) {
 	// Replace with a close card image
 	closeCard(id);
 }
-
-
