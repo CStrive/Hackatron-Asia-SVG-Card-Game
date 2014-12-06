@@ -1,13 +1,5 @@
-// Deal cards
-startGame();
-
 // Open respective cards, close after start of play
 
-// Do until deck is empty
-
-// Set player turn state, set other
-
-// Set deck clickable for current player 
 $('#draw').attr("disabled", false);
 firstDrawnCard = doDrawCard()['rank'];
 
@@ -34,17 +26,8 @@ var serverOrder = function() {
 
 // 3. Special card
 
-if(drawnCard == 'K') {
-	showP2Hand();
-} else if(drawnCard == 'Q') {
-	// server
-} else if(drawnCard == 'J') {
-	// server
-} else if(drawnCard == '10') {
-	showP1Hand();
 }
 
-// Jump to set player turn state
 
 function closeFace(id) {
 	// Replace with a close card image
