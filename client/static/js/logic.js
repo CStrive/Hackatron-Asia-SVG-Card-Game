@@ -46,7 +46,7 @@ var clientActions = function(action) {
 
 var serverOrders = function() {
 	// Perfrom requested action
-	socket.on('clientMethod', function(data)) {
+	socket.on('clientMethod', function(data) {
 		// Call respective functions
 		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 		switch(data['name']) {
