@@ -27,6 +27,7 @@ var doDrawCard = function(){
     hand[hand.length] = c;
     //cardDeck.spread();
     showHand();
+    return hand;
 }
 
 var doShuffle = function(){
