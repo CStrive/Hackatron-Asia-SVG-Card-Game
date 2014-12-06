@@ -3,6 +3,7 @@
 <head>
   <title>SVG Game</title>
   <link rel="stylesheet" href="static/lib/bootstrap/css/bootstrap.min.css">
+	 <link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
 </head>
 <body>
   <div class="container">
@@ -39,23 +40,28 @@
       </div>
     </div>
 
-    <div class="row">
-      <span class="pull-right"> Card Deck </span>
-      <div class="col-xs-offset-2 col-xs-3">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <button class="btn btn-default" onclick="">Deck</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-3">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <span> Open Cards </span>
-          </div>
-        </div>
-      </div>
-    </div>
+
+  		<div class="row">
+   			<span class="pull-right"> Card Deck </span>
+   			<div class="col-xs-offset-2 col-xs-3">
+    				<div class="panel panel-default">
+     					<div class="panel-body">
+      						<button class="btn btn-default" onclick="">Deck</button>
+      						<div id="cardDeck"></div>
+      						<input type="button" id="draw" value="draw a card" />
+     					</div>
+    				</div>
+   			</div>
+  			<div class="col-xs-3">
+   				<div class="panel panel-default">
+    					<div class="panel-body">
+     						<span> Open Cards </span>
+     						<div id="yourHand"></div>
+    					</div>
+   				</div>
+   			</div>
+  		</div>
+
 
     <div class="row">
       <span class="pull-right"> Player 2</span>
@@ -81,10 +87,11 @@
         </div>
       </div>
     </div>
-
-  </div>
-  
+	 </div>
 </body>
 <script type="text/javascript" src="static/lib/jQuery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="static/js/playingCards.ui.js"></script>
+<script type="text/javascript" src="static/js/playingCards.js"></script>
+<script type="text/javascript" src="static/js/showDeck.js"></script>
 <script type="text/javascript" src="static/js/logic.js"></script>
 </html>
