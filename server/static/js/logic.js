@@ -17,8 +17,10 @@ $('#draw').attr("disabled", false);
 // Show card, with possible actions
 // Implement actions
 var player2Name = localStorage.getItem("nickname");
-console.log(player2Name);
 var player1Name = '';
+
+$("#player1NameDisplay").text(player1Name);
+$("#player2NameDisplay").text(player2Name);
 
 socket.on('start', function(msg) {
 	data = msg['data'];
