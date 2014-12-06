@@ -80,5 +80,71 @@ var startGame = function(){
     showP1Hand();
     showP2Hand();
 }
-$('#startGame').click(startGame);
-$('#draw').click(doDrawCard);
+
+var swapCard = function(id) {
+    var cardToThrow;
+    if(drawnCard != null) {
+        if(id == -1) {
+            cardToThrow = drawnCard;
+        } else {
+            cardToThrow = player2Hand[id];
+            console.log(player2Hand);
+            player2Hand[id] = drawnCard;
+            showP2Hand();
+        }
+
+        discardedCards[discardedCards.length] = cardToThrow;
+        showDiscardedCards();
+        drawnCard = null;
+        showHand();
+    }
+    return cardToThrow;
+}
+
+
+$('#startGame').button().click(startGame);
+$('#draw').button().click(doDrawCard);
+
+
+//--------------------------------------------
+// Decide winner by comparing total of hand values
+function decideWinner() {
+    var p1HandValue = computeHandValue(player1Hand);
+    var p2HandValue = computeHandValue(player2Hand);
+
+    if (p1HandValue < p2HandValue) {
+        console.log("P1 wins!");
+    } else if (p1HandValue > p2HandValue) {
+        console.log("P2 wins!");
+    } else {
+        console.log("Tie!");
+    }    
+}
+
+function computeHandValue(hand) {
+    var value = 0;
+    for (var i = 0; i < 3; i++) {
+        if (hand[i]['rank'] == 'A') {
+            value = value + 1;
+        } else if (hand[i]['rank'] == 'J' || hand[i]['rank'] == 'Q' || hand[i]['rank'] == 'K') {
+            value = value + 10;
+        } else {
+            value = value + parseInt(hand[i]['rank']);  
+        }   
+    }
+    return value;
+}
+
+function popCardFromDeck(rank, suit) {
+    var tempCard = playingCards.card(rank, suit);
+    for (var i = 0; i<cardDeck['cards'].length; i++) {
+        if (cardDeck['cards'][i] != undefined && cardDeck['cards'][i]['rank'] == tempCard['rank'] && cardDeck['cards'][i]['suit'] == tempCard['suit']) {
+            delete cardDeck['cards'][i];
+        }
+    }
+}
+
+function updateTopOfPool(rank, suit) {
+    var tempCard = playingCards.card(rank, suit);
+    discardedCards[discardedCards.length] = tempCard;
+}
