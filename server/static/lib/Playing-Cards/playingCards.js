@@ -154,7 +154,7 @@ if (Array.indexOf === undefined) {
         // For a coustom " of "-String
         "ofString": " of ",
         "startShuffled": true,
-        "jokers": 2,
+        "jokers": 0,
         "jokerText": "Joker",
         "ranks": {
             "2": "Two",

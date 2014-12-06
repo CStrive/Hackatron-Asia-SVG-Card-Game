@@ -1,9 +1,24 @@
 // Open respective cards, close after start of play
 
 // Disable button when opponent's turn
-$('#draw').attr("disabled", false);
-firstDrawnCard = doDrawCard()['rank'];
 // Show card, with possible actions
+
+
+socket.on('start', function(data) {
+	if(data[0]['name'] == player2Name) {
+		player2Hand = data[0]['cards'];
+		player1Hand = data[1]['cards'];
+		player1Name = data[1]['name'];
+	}
+	else {
+		player2Hand = data[1]['cards'];
+		player1Hand = data[0]['cards'];
+		player1Name = data[0]['name'];
+	}
+
+	showP1Hand();
+	showP2Hand();
+});
 
 // Implement actions
 var clientActions = function(action) {
