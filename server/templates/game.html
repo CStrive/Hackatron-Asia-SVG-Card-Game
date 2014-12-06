@@ -2,11 +2,11 @@
 <html>
 <head>
   <title>SVG Game</title>
-   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}">
 	<link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='css/playingCards.ui.css') }}"/>
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}" />
 </head>
-<body>
+<body style="background: url('static/img/bg.jpg')">
   <div class="container">
     <div class="row">
       <div class="col-xs-10">
@@ -40,7 +40,7 @@
 		<div class="col-xs-4">
 			<div class="panel panel-default">
 					<div class="panel-body">
-						<input type="button" id="draw"/>
+						<input type="button" id="draw" style="background: url('static/img/facedowncard.jpg'); width: 76px; height: 100px"/>
 						<div style="width: 25%; margin: 0 auto;" id="cardDeck"></div>
 						
 					</div>
@@ -58,7 +58,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 						<span style="color:#fff"> Discarded Cards </span>
-						<div style="width: 25%; margin: 0 auto;" id="discardedCards" onclick="swapCard(-1)"></div>
+						<div style="width: 25%; margin: 0 auto;" id="discardedCards" onclick="clientActions({'name':'swap', 'id':-1})"></div>
 				</div>
 			</div>
 		</div>
@@ -66,21 +66,21 @@
     <div class="row">
       <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card1" style="width: 30%; margin: 0 auto;" onclick="swapCard(0)">
+         <div class="panel-body" id="player2Card1" style="width: 30%; margin: 0 auto;" onclick="clientActions({'name':'swap', 'id':0})">
             <button class="btn btn-default" onclick="">Card 1</button>
           </div>
         </div>
       </div>
       <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card2" style="width: 30%; margin: 0 auto;" onclick="swapCard(1)">
+          <div class="panel-body" id="player2Card2" style="width: 30%; margin: 0 auto;" onclick="clientActions({'name':'swap', 'id':1})">
             <button class="btn btn-default" onclick="">Card 2</button>
           </div>
         </div>
       </div>
       <div class="col-xs-4">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card3" style="width: 30%; margin: 0 auto;" onclick="swapCard(2)">
+          <div class="panel-body" id="player2Card3" style="width: 30%; margin: 0 auto;" onclick="clientActions({'name':'swap', 'id':2})">
             <button class="btn btn-default" onclick="">Card 3</button>
           <!--<div class="panel-body" id="player2Card3" onclick="closeFace(document.getElementById('player2Card3'))">
             <button class="btn btn-default">Card 3</button>-->
@@ -96,9 +96,9 @@
     </div>
     </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="{{ url_for('static', filename='lib/jQuery/jquery-2.1.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/jQueryUI/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.ui.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/actions.js') }}"></script>
