@@ -3,7 +3,8 @@ var cardDeck = $("#cardDeck").playingCards();
 var hand = [];
 var player1Hand =[];
 var player2Hand =[];
-var drawnCards = [];
+var discardedCards = [];
+var drawnCard = null;
 var showError = function(msg){
     $('#error').html(msg).show();
     setTimeout(function(){
@@ -13,7 +14,14 @@ var showError = function(msg){
 var showHand = function(){
     var el = $('#yourHand');
     el.html('');
-    el.append(hand[hand.length-1].getHTML());
+    if(drawnCard!=null){
+        el.append(drawnCard.getHTML());
+    }
+}
+var showDiscardedCards = function(){
+    var el = $('#discardedCards');
+    el.html('');
+    el.append(discardedCards[discardedCards.length-1].getHTML());
 }
 var doDrawCard = function(){
     var c = cardDeck.draw();
@@ -21,8 +29,7 @@ var doDrawCard = function(){
         showError('no more cards');
         return;
     }
-    hand[hand.length] = c;
-    //cardDeck.spread();
+    drawnCard = c;
     showHand();
 }
 var doShuffle = function(){
@@ -30,8 +37,7 @@ var doShuffle = function(){
 }
 var doPlayerDrawCard = function(playerHand){
     var c = cardDeck.draw();
-    playerHand[playerHand.length] = c;
-    //showHand();
+    playerHand[playerHand.length] =  c;
 }
 var showP1Hand = function(){
     var card1El = $('#player1Card1');
@@ -79,6 +85,28 @@ var startGame = function(){
 
     showP1Hand();
     showP2Hand();
+    $('#startGame').button('disable');
 }
-$('#startGame').click(startGame);
-$('#draw').click(doDrawCard);
+
+var swapCard = function(id) {
+    if(drawnCard!=null){
+        var cardToThrow;
+        if(id == -1){
+            cardToThrow = drawnCard;
+        }
+        else {
+            cardToThrow = player2Hand[id];
+            console.log(player2Hand);
+            player2Hand[id] = drawnCard;
+            showP2Hand();
+        }
+
+        discardedCards[discardedCards.length] = cardToThrow;
+        showDiscardedCards();
+        drawnCard = null;
+        showHand();
+    }
+}
+$('#startGame').button().click(startGame);
+$('#draw').button().click(doDrawCard);
+
