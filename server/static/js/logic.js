@@ -81,14 +81,15 @@ var clientActions = function(action) {
 	console.log(data);
 	socket.emit('readaction', data);
 }
+
 var serverOrders = function() {
 	// Perfrom requested action
 	socket.on('operation', function(data) {
 		// Call respective functions
 		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 		if(data['name'] == 'updateDeckAndPool') {
-				popCardFromDeck(data['options']['rank'], data['options']['suit']);
-				updateTopOfPool(data['options']['rank'], data['options']['suit']);
+			popCardFromDeck(data['options']['rank'], data['options']['suit']);
+			updateTopOfPool(data['options']['rank'], data['options']['suit']);
 		}
 		
 		switch(data['options']['rank']) {
@@ -111,6 +112,7 @@ var serverOrders = function() {
 		}
 	});
 }
+
 function closeFace(id) {
 	// Replace with a close card image
 	closeCard(id);
