@@ -100,12 +100,11 @@ var startGame = function(){
 }
 
 var swapCard = function(id) {
-    if(drawnCard!=null){
-        var cardToThrow;
-        if(id == -1){
+    var cardToThrow;
+    if(drawnCard != null) {
+        if(id == -1) {
             cardToThrow = drawnCard;
-        }
-        else {
+        } else {
             cardToThrow = player2Hand[id];
             console.log(player2Hand);
             player2Hand[id] = drawnCard;
@@ -116,8 +115,8 @@ var swapCard = function(id) {
         showDiscardedCards();
         drawnCard = null;
         showHand();
-        return cardToThrow;
     }
+    return cardToThrow;
 }
 
 
