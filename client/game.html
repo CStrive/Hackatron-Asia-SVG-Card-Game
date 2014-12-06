@@ -3,7 +3,8 @@
 <head>
   <title>SVG Game</title>
   <link rel="stylesheet" href="static/lib/bootstrap/css/bootstrap.min.css">
-	 <link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
+	<link rel="stylesheet" href="static/css/jquery-ui.theme.min.css">
 </head>
 <body>
   <div class="container">
@@ -39,57 +40,70 @@
         </div>
       </div>
     </div>
-
-
-  		<div class="row">
-   			<span class="pull-right"> Card Deck </span>
-   			<div class="col-xs-offset-2 col-xs-3">
-    				<div class="panel panel-default">
-     					<div class="panel-body">
-      						<div id="cardDeck"></div>
-      						<input type="button" id="draw" style="background: url('static/img/facedowncard.jpg'); width: 76px; height: 100px"/>
-      						<input type="button" id="startGame" value="Start" />
-     					</div>
-    				</div>
-   			</div>
-  			<div class="col-xs-3">
-   				<div class="panel panel-default">
-    					<div class="panel-body">
-     						<span> Open Cards </span>
-     						<div id="yourHand" onclick=""></div>
-    					</div>
-   				</div>
-   			</div>
-  		</div>
-
-
+		<div class="row">
+ 			<span class="pull-right"> Card Deck </span>
+ 			<div class="col-xs-offset-2 col-xs-3">
+  				<div class="panel panel-default">
+   					<div class="panel-body">
+    						<div id="cardDeck"></div>
+    						<input type="button" id="draw" style="background: url('static/img/facedowncard.jpg'); width: 76px; height: 100px"/>
+    						<input type="button" id="startGame" value="Start" />
+   					</div>
+  				</div>
+ 			</div>
+			<div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <span> Drawn Card </span>
+              <div id="yourHand" ></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <span> Discarded Cards </span>
+              <div id="discardedCards" onclick="swapCard(-1)"></div>
+          </div>
+        </div>
+      </div>
+		</div>
     <div class="row">
       <span class="pull-right"> Player 2</span>
       <div class="col-xs-3">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card1" onclick="closeFace(document.getElementById('player2Card1'))">
-            <button class="btn btn-default">Card 1</button>
+          <div class="panel-body" id="player2Card1" onclick="swapCard(0)">
+            <button class="btn btn-default" onclick="">Card 1</button>
           </div>
         </div>
       </div>
       <div class="col-xs-3">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card2" onclick="closeFace(document.getElementById('player2Card2'))">
-            <button class="btn btn-default">Card 2</button>
+          <div class="panel-body" id="player2Card2" onclick="swapCard(1)">
+            <button class="btn btn-default" onclick="">Card 2</button>
           </div>
         </div>
       </div>
       <div class="col-xs-3">
         <div class="panel panel-default">
-          <div class="panel-body" id="player2Card3" onclick="closeFace(document.getElementById('player2Card3'))">
-            <button class="btn btn-default">Card 3</button>
+          <div class="panel-body" id="player2Card3" onclick="swapCard(2)">
+            <button class="btn btn-default" onclick="">Card 3</button>
+          <!--<div class="panel-body" id="player2Card3" onclick="closeFace(document.getElementById('player2Card3'))">
+            <button class="btn btn-default">Card 3</button>-->
           </div>
         </div>
       </div>
     </div>
-	 </div>
+    <div class="row">
+	    <div class="col-xs-offset-6 col-xs-3">
+    	  	<input type="button" id="draw" value="draw a card" />
+			<input type="button" id="startGame" value="Start" />
+		</div>
+    </div>
+    </div>
 </body>
 <script type="text/javascript" src="static/lib/jQuery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="static/lib/jQueryUI/jquery-ui.min.js"></script>
 <script type="text/javascript" src="static/js/playingCards.js"></script>
 <script type="text/javascript" src="static/js/playingCards.ui.js"></script>
 <script type="text/javascript" src="static/js/showDeck.js"></script>

@@ -1,5 +1,5 @@
 // Deal cards
-
+startGame();
 // Open respective cards, close after start of play
 
 // Do until deck is empty
@@ -8,7 +8,7 @@
 
 // Set deck clickable for current player 
 $('#draw').attr("disabled", false);
-drawnCard = doDrawCard()[0]['rank'];
+drawnCard = doDrawCard()['rank'];
 
 // Show card, with possible actions
 
