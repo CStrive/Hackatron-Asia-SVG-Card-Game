@@ -1,31 +1,47 @@
 // Open respective cards, close after start of play
 
+// Disable button when opponent's turn
 $('#draw').attr("disabled", false);
 firstDrawnCard = doDrawCard()['rank'];
 
 // Show card, with possible actions
 
 // Implement actions
-var clientAction = function(action) {
+var clientActions = function(action) {
+	var discardedCard,
+		data;
 
-	//1.Perform action
+	data['drawnCard'] = drawnCard;
+
+	// 1.Perform action
 	if(action['name'] == 'swap') {
-		console.log(typeof(action['id']));
-		swapCard(action['id']);
+		discardedCard = swapCard(action['id']);
 	}
-	//2.Inform Server
-}
 
-var serverOrder = function() {
-	//1.Perfrom requested action
-}
+	// 2.Inform Server
+	if(action['id'] == -1) {
+		// a. Discard
+		data['discardedCard'] = discardedCard;	
+	} else {
+		// b. Replace and discard
+		data['discardedCard'] = discardedCard; 
+		data['position'] = action['id'];	
+	}
 
-// 1. Replace player card with draw card, add card to pool
-
-// 2. Add card to pool
-
-// 3. Special card
-
+	// c. Special cases
+	switch(discardedCard['rank']) {
+		case '10':
+			// data = function();
+			break;
+		case 'J':
+			break;
+		case 'Q':
+			break;
+		case 'K':
+			break;
+	}
+	
+	socket.emit('serverFunction', data);
 }
 
 var serverOrders = function() {
