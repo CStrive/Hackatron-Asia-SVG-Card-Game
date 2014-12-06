@@ -34,18 +34,29 @@ var doPlayerDrawCard = function(playerHand){
     //showHand();
 }
 var showP1Hand = function(){
-    var el = $('#player1Hand')
-    el.html('');
-    for(var i=0;i<player1Hand.length;i++){
-        el.append(player1Hand[i].getHTML());
-    }
+    var card1El = $('#player1Card1');
+    var card2El = $('#player1Card2');
+    var card3El = $('#player1Card3');
+    card1El.html('');
+    card2El.html('');
+    card3El.html('');
+
+    card1El.append(player1Hand[0].getHTML());
+    card2El.append(player1Hand[1].getHTML());
+    card3El.append(player1Hand[2].getHTML());
+
 }
 var showP2Hand = function(){
-    var el = $('#player2Hand')
-    el.html('');
-    for(var i=0;i<player2Hand.length;i++){
-        el.append(player2Hand[i].getHTML());
-    }
+    var card1El = $('#player2Card1');
+    var card2El = $('#player2Card2');
+    var card3El = $('#player2Card3');
+    card1El.html('');
+    card2El.html('');
+    card3El.html('');
+
+    card1El.append(player2Hand[0].getHTML());
+    card2El.append(player2Hand[1].getHTML());
+    card3El.append(player2Hand[2].getHTML());
 }
 function closeCard() {
     var closeCardImage = document.createElement("div");
