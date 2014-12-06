@@ -3,6 +3,7 @@
 <head>
 	<title> SVG Game</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
 </head>
 <body>
 	<div class="container">
@@ -45,6 +46,8 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<span> Card Deck Stack </span>
+						<div id="cardDeck"></div>
+						<input type="button" id="draw" value="draw a card" />
 					</div>
 				</div>
 			</div>
@@ -52,6 +55,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<span> Open Cards </span>
+						<div id="yourHand"></div>
 					</div>
 				</div>
 			</div>
@@ -83,6 +87,10 @@
 		</div>
 
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="static/js/playingCards.js"></script>
+    <script type="text/javascript" src="static/js/playingCards.ui.js"></script>
+	<script src="static/js/showDeck.js"></script>
 </body>
 </html>
