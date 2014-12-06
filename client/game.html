@@ -19,7 +19,7 @@
       <span class="pull-right"> Player 1</span>
       <div class="col-xs-3">
         <div class="panel panel-default">
-          <div class="panel-body">
+          <div class="panel-body" id="player1Hand">
             <button class="btn btn-default" onclick="">Card 1</button> 
           </div>
         </div>
@@ -49,6 +49,7 @@
       						<button class="btn btn-default" onclick="">Deck</button>
       						<div id="cardDeck"></div>
       						<input type="button" id="draw" value="draw a card" />
+      						<input type="button" id="startGame" value="Start" />
      					</div>
     				</div>
    			</div>
@@ -56,7 +57,7 @@
    				<div class="panel panel-default">
     					<div class="panel-body">
      						<span> Open Cards </span>
-     						<div id="yourHand"></div>
+     						<div id="yourHand" onclick="closeFace()"></div>
     					</div>
    				</div>
    			</div>
@@ -67,7 +68,7 @@
       <span class="pull-right"> Player 2</span>
       <div class="col-xs-3">
         <div class="panel panel-default">
-          <div class="panel-body">
+          <div class="panel-body" id="player2Hand">
             <button class="btn btn-default" onclick="">Card 1</button>
           </div>
         </div>
@@ -92,7 +93,7 @@
 <script type="text/javascript" src="static/lib/jQuery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="static/js/playingCards.js"></script>
 <script type="text/javascript" src="static/js/playingCards.ui.js"></script>
-
 <script type="text/javascript" src="static/js/showDeck.js"></script>
 <script type="text/javascript" src="static/js/logic.js"></script>
+<!-- <script type="text/javascript" src="static/js/cards.js"></script> -->
 </html>
