@@ -3,8 +3,11 @@
 <head>
 	<title> SVG Game</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/lib/Playing-Cards/playingCards.ui.css">
+
 </head>
 <body>
+	<input type="button" id="startGame" value="Start" />
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-10">
@@ -18,7 +21,7 @@
 			<span class="pull-right"> Player 1</span>
 			<div class="col-xs-3">
 				<div class="panel panel-default">
-					<div class="panel-body">
+					<div class="panel-body hand" id="player1Hand">
 						<span> Card 1 </span>
 					</div>
 				</div>
@@ -43,7 +46,7 @@
 			<span class="pull-right"> Card Deck </span>
 			<div class="col-xs-offset-2 col-xs-3">
 				<div class="panel panel-default">
-					<div class="panel-body">
+					<div class="panel-body"  id="cardDeck">
 						<span> Card Deck Stack </span>
 					</div>
 				</div>
@@ -61,7 +64,7 @@
 			<span class="pull-right"> Player 2</span>
 			<div class="col-xs-3">
 				<div class="panel panel-default">
-					<div class="panel-body">
+					<div class="panel-body hand" id="player2Hand">
 						<span> Card 1 </span>
 					</div>
 				</div>
@@ -83,6 +86,9 @@
 		</div>
 
 	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="static/lib/Playing-Cards/playingCards.js" type="text/javascript"></script>
+	<script src="static/lib/Playing-Cards/playingCards.ui.js" type="text/javascript"></script>
+	<script src="static/js/cards.js" type="text/javascript"></script>
 </html>
