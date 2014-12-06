@@ -1,4 +1,4 @@
-var cardDeck = $("#cardDeck").playingCards();
+//var cardDeck = $("#cardDeck").playingCards();
 
 var player1Hand =[];
 var player2Hand =[];
