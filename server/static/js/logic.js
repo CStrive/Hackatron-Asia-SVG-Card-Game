@@ -24,17 +24,25 @@ $("#player2NameDisplay").text(player2Name);
 
 socket.on('start', function(msg) {
 	data = msg['data'];
-	console.log(data);
 	if(data[0]['name'] == player2Name) {
-		player2Hand = data[0]['cards'];
-		player1Hand = data[1]['cards'];
+
+		for(var i=0; i<3;i++) {
+			player2Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+		}
+
+		for(var i=0; i<3;i++) {
+			player1Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+		}
 		player1Name = data[1]['name'];
-		console.log(player1Hand);
-		console.log(player2Hand);
 	}
 	else {
-		player2Hand = data[1]['cards'];
-		player1Hand = data[0]['cards'];
+		for(var i=0; i<3;i++) {
+			player2Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+		}
+
+		for(var i=0; i<3;i++) {
+			player1Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+		}
 		player1Name = data[0]['name'];
 	}
 
