@@ -4,17 +4,20 @@ var hand = [];
 var player1Hand =[];
 var player2Hand =[];
 var drawnCards = [];
+
 var showError = function(msg){
     $('#error').html(msg).show();
     setTimeout(function(){
         $('#error').fadeOut('slow');
     },3000);
 }
+
 var showHand = function(){
     var el = $('#yourHand');
     el.html('');
     el.append(hand[hand.length-1].getHTML());
 }
+
 var doDrawCard = function(){
     var c = cardDeck.draw();
     if(!c){
@@ -25,14 +28,17 @@ var doDrawCard = function(){
     //cardDeck.spread();
     showHand();
 }
+
 var doShuffle = function(){
     cardDeck.shuffle();
 }
+
 var doPlayerDrawCard = function(playerHand){
     var c = cardDeck.draw();
     playerHand[playerHand.length] = c;
     //showHand();
 }
+
 var showP1Hand = function(){
     var card1El = $('#player1Card1');
     var card2El = $('#player1Card2');
@@ -46,6 +52,7 @@ var showP1Hand = function(){
     card3El.append(player1Hand[2].getHTML());
 
 }
+
 var showP2Hand = function(){
     var card1El = $('#player2Card1');
     var card2El = $('#player2Card2');
@@ -58,15 +65,18 @@ var showP2Hand = function(){
     card2El.append(player2Hand[1].getHTML());
     card3El.append(player2Hand[2].getHTML());
 }
-function closeCard() {
+
+function closeCard(id) {
     var closeCardImage = document.createElement("div");
     closeCardImage.style.width="76px";
     closeCardImage.style.height="100px";
+    closeCardImage.id="closeCardImage";
     closeCardImage.style.backgroundImage="url('static/img/facedowncard.jpg')";
-    var el = $('#yourHand');
+    var el = $(id);
     el.html('');
     el.append(closeCardImage);
 }
+
 var startGame = function(){
     doShuffle();
 

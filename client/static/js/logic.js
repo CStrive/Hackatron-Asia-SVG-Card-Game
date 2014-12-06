@@ -28,11 +28,7 @@
 
 // Jump to set player turn state
 
-function closeFace() {
+function closeFace(id) {
 	// Replace with a close card image
-	closeCard();
-}
-
-function openFace() {
-	// Revert to card image
+	closeCard(id);
 }
