@@ -1,96 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> SVG Game</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
+  <title>SVG Game</title>
+  <link rel="stylesheet" href="static/lib/bootstrap/css/bootstrap.min.css">
+	 <link rel="stylesheet" type="text/css" media="all" href="static/css/playingCards.ui.css"/>
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-10">
-				<h3> SVG Card Game </h3>
-			</div>
-			<div class="col-xs-2">
-				<h3> Game Objects </h3>
-			</div>
-		</div>
-		<div class="row">
-			<span class="pull-right"> Player 1</span>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card 1 </span>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card 2 </span>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card 3 </span>
-					</div>
-				</div>
-			</div>
-		</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10">
+        <h3> SVG Card Game </h3>
+      </div>
+      <div class="col-xs-2">
+        <h3> Game Objects </h3>
+      </div>
+    </div>
+    <div class="row">
+      <span class="pull-right"> Player 1</span>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <button class="btn btn-default" onclick="">Card 1</button> 
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <button class="btn btn-default" onclick="">Card 2</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <button class="btn btn-default" onclick="">Card 3</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<div class="row">
-			<span class="pull-right"> Card Deck </span>
-			<div class="col-xs-offset-2 col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card Deck Stack </span>
-						<div id="cardDeck"></div>
-						<input type="button" id="draw" value="draw a card" />
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Open Cards </span>
-						<div id="yourHand"></div>
-					</div>
-				</div>
-			</div>
-		</div>
 
-		<div class="row">
-			<span class="pull-right"> Player 2</span>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card 1 </span>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card 2 </span>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-3">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<span> Card 3 </span>
-					</div>
-				</div>
-			</div>
-		</div>
+  		<div class="row">
+   			<span class="pull-right"> Card Deck </span>
+   			<div class="col-xs-offset-2 col-xs-3">
+    				<div class="panel panel-default">
+     					<div class="panel-body">
+      						<button class="btn btn-default" onclick="">Deck</button>
+      						<div id="cardDeck"></div>
+      						<input type="button" id="draw" value="draw a card" />
+     					</div>
+    				</div>
+   			</div>
+  			<div class="col-xs-3">
+   				<div class="panel panel-default">
+    					<div class="panel-body">
+     						<span> Open Cards </span>
+     						<div id="yourHand"></div>
+    					</div>
+   				</div>
+   			</div>
+  		</div>
 
-	</div>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
-	<script type="text/javascript" src="static/js/playingCards.js"></script>
-    <script type="text/javascript" src="static/js/playingCards.ui.js"></script>
-	<script src="static/js/showDeck.js"></script>
+
+    <div class="row">
+      <span class="pull-right"> Player 2</span>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <button class="btn btn-default" onclick="">Card 1</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <button class="btn btn-default" onclick="">Card 2</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <button class="btn btn-default" onclick="">Card 3</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	 </div>
 </body>
+<script type="text/javascript" src="static/lib/jQuery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="static/js/playingCards.ui.js"></script>
+<script type="text/javascript" src="static/js/playingCards.js"></script>
+<script type="text/javascript" src="static/js/showDeck.js"></script>
+<script type="text/javascript" src="static/js/logic.js"></script>
 </html>
