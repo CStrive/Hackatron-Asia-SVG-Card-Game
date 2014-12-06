@@ -1,7 +1,9 @@
+from redis import Redis
 from flask import Flask
 from flask.ext.socketio import SocketIO
 
 socketio = SocketIO()
+redis = Redis()
 
 def create_app(debug=False):
 	"""Create an application."""
