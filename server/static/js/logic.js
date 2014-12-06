@@ -18,8 +18,10 @@ $('#draw').attr("disabled", false);
 // Implement actions
 
 var player2Name = localStorage.getItem("nickname");
-console.log(player2Name);
 var player1Name = '';
+
+$("#player1NameDisplay").text(player1Name);
+$("#player2NameDisplay").text(player2Name);
 
 socket.on('start', function(data) {
 	if(data[0]['name'] == player2Name) {
