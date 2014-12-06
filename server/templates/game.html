@@ -10,7 +10,7 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-10">
-        <h3 style="color:#FFFFFF"> SVG Card Game </h3>
+        <legend><h2 style="color:#FFFFFF"> SVG Card Game </h2></legend>
       </div>
     </div>
     <div class="row">
@@ -90,7 +90,6 @@
     </div>
     <div class="row">
 	    <div class="col-xs-offset-5 col-xs-4">
-    	  	<input type="button" id="draw" value="draw a card" />
 			<input type="button" id="startGame" value="Start" />
 		</div>
     </div>
@@ -100,6 +99,7 @@
 <script src="{{ url_for('static', filename='lib/jQuery/jquery-2.1.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='lib/jQueryUI/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="static/lib/noty-2.3.2/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.ui.js') }}"></script>
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
