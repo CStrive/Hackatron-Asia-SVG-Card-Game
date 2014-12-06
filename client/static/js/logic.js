@@ -1,5 +1,5 @@
 // Deal cards
-
+startGame();
 // Open respective cards, close after start of play
 
 // Do until deck is empty
