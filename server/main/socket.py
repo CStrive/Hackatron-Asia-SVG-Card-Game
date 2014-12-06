@@ -109,7 +109,9 @@ def createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName):
 	elif cardRank == 'K':
 		responseData = returnSelfCards(playerName, svgroom, data, nextPlayerName)
 	else:
-		return {}
+		responseData = {}
+
+	return responseData
 
 
 # Operation for K
@@ -231,10 +233,10 @@ def shuffleCards(playerToShuffle):
 
 	newCards = currentCards
 	a = [0,1,2]
-	newOrder = shuffle(a)
-	newCards['cards'][0] = currentCards['cards'][newOrder[0]]
-	newCards['cards'][1] = currentCards['cards'][newOrder[1]]
-	newCards['cards'][2] = currentCards['cards'][newOrder[2]]
+	shuffle(a)
+	newCards['cards'][0] = currentCards['cards'][a[0]]
+	newCards['cards'][1] = currentCards['cards'][a[1]]
+	newCards['cards'][2] = currentCards['cards'][a[2]]
 
 	redis.hset("USER_CARDS", playerToShuffle, json.dumps(newCards))
 
