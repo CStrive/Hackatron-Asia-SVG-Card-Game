@@ -34,7 +34,7 @@ var doDrawCard = function(){
     }
     drawnCard = c;
     showHand();
-    return hand;
+    return drawnCard;
 }
 
 var doShuffle = function(){
