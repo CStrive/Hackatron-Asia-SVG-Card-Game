@@ -11,11 +11,14 @@ NUM_PLAYERS_ROOM = 2
 # Connect client socket
 # Store client name and set default room
 @socketio.on('connect', namespace='/svg')
-def socketConnect(user):
+def socketConnect():
+	players.append(request.namespace)
+
+@socketio.on('setnickname', namespace='/svg')
+def socketSetName(user):
 	session['name'] = user['name']
 	session['room'] = defaultRoom
 	join_room()
-	players.append(request.namespace)
 	gameStart(session['room'])
 
 # Disconnect a client
