@@ -7,21 +7,28 @@ firstDrawnCard = doDrawCard()['rank'];
 
 // Implement actions
 var clientActions = function(action) {
-	var discardedCard,
-		data;
+	var discardedCard;
+	var	data = {};
 
 	data['drawnCard'] = drawnCard;
 
 	// 1.Perform action
 	if(action['name'] == 'swap') {
 		discardedCard = swapCard(action['id']);
+	} else if (action['name'] == 'exchange'){
+		discardedCard = discardedCards[discardedCards.length-1];
+		data['position'] = exchangeCard(action['id']);
+		data['opponentPosition'] = action['id'];
 	}
 
+	if (discardedCard['rank'] == 'Q' && action['name'] != 'exchange') {
+		return;
+	}
 	// 2.Inform Server
 	if(action['id'] == -1) {
 		// a. Discard
 		data['discardedCard'] = discardedCard;	
-	} else {
+	} else if (action['name'] == 'swap'){
 		// b. Replace and discard
 		data['discardedCard'] = discardedCard; 
 		data['position'] = action['id'];	

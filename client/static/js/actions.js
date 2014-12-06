@@ -3,8 +3,7 @@ var cardDeck = $("#cardDeck").playingCards();
 var hand = [];
 var player1Hand =[];
 var player2Hand =[];
-var discardedCards = [];
-var drawnCard = null;
+
 
 var showError = function(msg){
     $('#error').html(msg).show();
@@ -99,6 +98,8 @@ var startGame = function(){
     $('#startGame').button('disable');
 }
 
+var selectedCard = null;
+
 var swapCard = function(id) {
     var cardToThrow;
     if(drawnCard != null) {
@@ -106,7 +107,6 @@ var swapCard = function(id) {
             cardToThrow = drawnCard;
         } else {
             cardToThrow = player2Hand[id];
-            console.log(player2Hand);
             player2Hand[id] = drawnCard;
             showP2Hand();
         }
@@ -116,9 +116,27 @@ var swapCard = function(id) {
         drawnCard = null;
         showHand();
     }
+
+    else {
+        selectedCard = id;
+        cardToThrow = discardedCards[discardedCards.length-1];
+    }
     return cardToThrow;
 }
 
+
+var exchangeCard = function(id) {
+    var tempCard;
+    if(discardedCards[discardedCards.length-1]['rank'] == 'Q') {
+        tempCard = player2Hand[selectedCard];
+        player2Hand[selectedCard] = player1Hand[id];
+        player1Hand[id] = tempCard;
+        showP1Hand();
+        showP2Hand();
+    }
+
+    return selectedCard;
+}
 
 $('#startGame').button().click(startGame);
 $('#draw').button().click(doDrawCard);
