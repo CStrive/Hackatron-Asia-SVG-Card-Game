@@ -44,13 +44,14 @@ var clientActions = function(action) {
 	// c. Special cases
 	switch(discardedCard['rank']) {
 		case '10':
-			// data = function();
+			showP1Hand();
 			break;
 		case 'J':
 			break;
 		case 'Q':
 			break;
 		case 'K':
+			showP2Hand();
 			break;
 	}
 	
