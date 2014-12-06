@@ -1,8 +1,7 @@
 var cardDeck = $("#cardDeck").playingCards();
 
 var hand = [];
-var player1Hand =[];
-var player2Hand =[];
+
 var showError = function(msg){
     $('#error').html(msg).show();
     setTimeout(function(){
