@@ -349,16 +349,20 @@ def addUserToRoom(name, svgroom):
 
 
 def endGame(svgroom):
+	print "game over"
 	redis.srem("ROOM", svgroom)
 	redisKey = "ROOM_" + svgroom
 	orderPlayers = getOrderOfPlay(svgroom)
 
-	endGameCards = {}
+	endGameCards = []
 
 	for x in range(0, NUM_PLAYERS_ROOM):
 		for player in players:
 			if player.session['name'] == orderPlayers[x]:
-				endGameCards[orderPlayers[x]] = redis.hget("USER_CARDS", player.session['name'])
+				thisPlayer = {}
+				thisPlayer['name'] = player.session['name']
+				thisPlayer['cards'] = redis.hget("USER_CARDS", player.session['name'])
+				endGameCards.append(thisPlayer)
 				redis.hdel("USER_CARDS", player.session['name'])
 				redis.srem(redisKey, player.session['name'])
 
