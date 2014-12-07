@@ -65,7 +65,7 @@ def readActionPerformed(data):
 		logMessage = playerName + " swapped the card drawn with the card at " + str(data['position'])
 		updatePlayerLogs(logMessage, svgroom)
 
-	print responseData
+	# print responseData
 	emit('operation', responseData, room=svgroom)
 
 
@@ -428,7 +428,7 @@ def cardToBeDropped(message):
 
 # This function is supposed to send action performed to all players
 def updatePlayerLogs(action, svgroom):
-	emit('log', {'data':action} , room=svgroom)
+	emit('log', action , room=svgroom)
 
 
 # This function is supposed to inform the other clients of the cards to be removed
