@@ -152,5 +152,7 @@ function popCardFromDeck(rank, suit) {
 }
 function updateTopOfPool(rank, suit) {
     var tempCard = playingCards.card(rank, suit);
+    console.log(rank, suit);
     discardedCards[discardedCards.length] = tempCard;
+    showDiscardedCards();
 }
