@@ -173,7 +173,7 @@ socket.on('operation', function(data) {
 				for(var i=0; i<3;i++) {
 					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
 				}
-				showP2Hand();
+				// showP2Hand();
 				break;
 			case '10':
 				console.log("comes to 10");
