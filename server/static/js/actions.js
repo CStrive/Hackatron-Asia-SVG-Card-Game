@@ -25,10 +25,6 @@ var doDrawCard = function(){
         showError('Error');
         return;
     }
-    else if (cardDeck.count() == 0) {
-        decideWinner();
-        return;
-    }
     drawnCard = c;
     showHand();
     return drawnCard;
