@@ -112,23 +112,25 @@ socket.on('operation', function(data) {
 		updateTopOfPool(data['options']['rank'], data['options']['suit']);	
 	}
 	
-	switch(data['options']['rank']) {
-		case 'K':
-			var text1 = player1Name+' has viewed his cards';
-			var n = noty({text: text1, layout: 'top', type:'information'});
-			break;
-		case 'Q':
-			var text2 = player1Name+" has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
-			var n = noty({text: text2, layout: 'top', type:'information'});
-			break;
-		case 'J':
-			var text3 = player1Name+' has shuffled your cards';
-			var n = noty({text: text3, layout: 'top', type:'information'});
-			break;
-		case '10':
-			var text4 = player1Name +' has viewed your cards';
-			var n = noty({text: text4, layout: 'top', type:'information'});
-			break;
+	if(data['turn']==player2Name) {
+		switch(data['options']['rank']) {
+			case 'K':
+				var text1 = player1Name+' has viewed his cards';
+				var n = noty({text: text1, layout: 'top', type:'information'});
+				break;
+			case 'Q':
+				var text2 = player1Name+" has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
+				var n = noty({text: text2, layout: 'top', type:'information'});
+				break;
+			case 'J':
+				var text3 = player1Name+' has shuffled your cards';
+				var n = noty({text: text3, layout: 'top', type:'information'});
+				break;
+			case '10':
+				var text4 = player1Name +' has viewed your cards';
+				var n = noty({text: text4, layout: 'top', type:'information'});
+				break;
+		}
 	}
 });
 function closeFace(id) {
