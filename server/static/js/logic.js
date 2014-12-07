@@ -44,8 +44,14 @@ socket.on('start', function(msg) {
 		player1Name = data[0]['name'];
 	}
 
-	showP1Hand();
-	showP2Hand();
+	// showP1Hand();
+  
+	var card = $('#beginGameShow');
+  	card.append(player2Hand[0].getHTML());
+  	card.append(player2Hand[1].getHTML());
+  	card.append(player2Hand[2].getHTML());
+	$('#myModal').modal('show');	
+	// showP2Hand();
 
 	// Display player names
 	$("#player1NameDisplay").text(player1Name);
