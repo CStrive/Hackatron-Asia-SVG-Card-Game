@@ -98,6 +98,9 @@ var clientActions = function(action) {
 		data['position'] = exchangeCard(action['id']);
 		data['opponentPosition'] = action['id'];
 		data['discardedCard'] = discardedCard;
+		data['drawnCard'] = spCard;
+		spCard = null;
+		console.log(data);
 	}
 	if (discardedCard['rank'] == 'Q' && action['name'] != 'exchange') {
 		return;
@@ -159,6 +162,7 @@ socket.on('operation', function(data) {
 				for(var i=0; i<3;i++) {
 					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
 				}
+				showP2Hand();
 				break;
 			case '10':
 				var text4 = player1Name +' has viewed your cards';
