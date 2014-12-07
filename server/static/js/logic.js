@@ -19,13 +19,11 @@ $('#draw').attr("disabled", false);
 var player2Name = localStorage.getItem("nickname");
 var player1Name = '';
 
-$("#player1NameDisplay").text(player1Name);
-$("#player2NameDisplay").text(player2Name);
 
 socket.on('start', function(msg) {
 	data = msg['data'];
-	if(data[0]['name'] == player2Name) {
 
+	if(data[0]['name'] == player2Name) {
 		for(var i=0; i<3;i++) {
 			player2Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
 		}
@@ -48,6 +46,10 @@ socket.on('start', function(msg) {
 
 	showP1Hand();
 	showP2Hand();
+
+	// Display player names
+	$("#player1NameDisplay").text(player1Name);
+	$("#player2NameDisplay").text(player2Name);
 });
 
 
@@ -95,36 +97,35 @@ var clientActions = function(action) {
 	console.log(data);
 	socket.emit('readaction', data);
 }
-var serverOrders = function() {
-	// Perfrom requested action
-	socket.on('operation', function(data) {
-		// Call respective functions
-		// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
-		if(data['name'] == 'updateDeckAndPool') {
-			popCardFromDeck(data['options']['rank'], data['options']['suit']);
-			updateTopOfPool(data['options']['rank'], data['options']['suit']);	
-		}
-		
-		switch(data['options']['rank']) {
-			case 'K':
-				var text1 = player1Name+' has viewed his cards';
-				var n = noty({text: text1, layout: 'top', type:'information'});
-				break;
-			case 'Q':
-				var text2 = player1Name+" has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
-				var n = noty({text: text2, layout: 'top', type:'information'});
-				break;
-			case 'J':
-				var text3 = player1Name+' has shuffled your cards';
-				var n = noty({text: text3, layout: 'top', type:'information'});
-				break;
-			case '10':
-				var text4 = player1Name +' has viewed your cards';
-				var n = noty({text: text4, layout: 'top', type:'information'});
-				break;
-		}
-	});
-}
+
+socket.on('operation', function(data) {
+	console.log(data);
+	// Call respective functions
+	// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
+	if(data['name'] == 'updateDeckAndPool') {
+		popCardFromDeck(data['options']['rank'], data['options']['suit']);
+		updateTopOfPool(data['options']['rank'], data['options']['suit']);	
+	}
+	
+	switch(data['options']['rank']) {
+		case 'K':
+			var text1 = player1Name+' has viewed his cards';
+			var n = noty({text: text1, layout: 'top', type:'information'});
+			break;
+		case 'Q':
+			var text2 = player1Name+" has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
+			var n = noty({text: text2, layout: 'top', type:'information'});
+			break;
+		case 'J':
+			var text3 = player1Name+' has shuffled your cards';
+			var n = noty({text: text3, layout: 'top', type:'information'});
+			break;
+		case '10':
+			var text4 = player1Name +' has viewed your cards';
+			var n = noty({text: text4, layout: 'top', type:'information'});
+			break;
+	}
+});
 function closeFace(id) {
 	// Replace with a close card image
 	closeCard(id);

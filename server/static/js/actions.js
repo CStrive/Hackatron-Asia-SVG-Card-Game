@@ -1,7 +1,6 @@
 var cardDeck = $("#cardDeck").playingCards();
 var hand = [];
-var player1Hand =[];
-var player2Hand =[];
+
 var showError = function(msg){
     $('#error').html(msg).show();
     setTimeout(function(){
@@ -152,6 +151,7 @@ function popCardFromDeck(rank, suit) {
 }
 function updateTopOfPool(rank, suit) {
     var tempCard = playingCards.card(rank, suit);
+    console.log(rank, suit);
     discardedCards[discardedCards.length] = tempCard;
     showDiscardedCards();
 }
