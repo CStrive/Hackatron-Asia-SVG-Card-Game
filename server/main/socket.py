@@ -3,7 +3,7 @@ from flask.ext.socketio import emit, join_room, leave_room
 from .. import socketio, redis
 from random import shuffle
 from functions import Cards
-import json, uuid
+import json, uuid, copy
 
 players = []
 defaultRoom = str(0)
@@ -238,8 +238,8 @@ def exchangeCard(playerName, position, opponent, opponentPosition):
 	currentMe = json.loads( redis.hget("USER_CARDS", playerName) )
 	currentOpp = json.loads( redis.hget("USER_CARDS", opponent) )
 	
-	newCardsMe = currentMe
-	newCardsOpp = currentOpp
+	newCardsMe = copy.deepcopy(currentMe)
+	newCardsOpp = copy.deepcopy(currentOpp)
 
 	newCardsMe["cards"][position] = currentOpp["cards"][opponentPosition]
 	newCardsOpp["cards"][opponentPosition] = currentMe["cards"][position]
@@ -255,7 +255,7 @@ def exchangeCard(playerName, position, opponent, opponentPosition):
 def shuffleCards(playerToShuffle):
 	currentCards = json.loads( redis.hget("USER_CARDS", playerToShuffle) )
 
-	newCards = currentCards
+	newCards = copy.deepcopy(currentCards)
 	a = [0,1,2]
 	shuffle(a)
 	newCards['cards'][0] = currentCards['cards'][a[0]]
