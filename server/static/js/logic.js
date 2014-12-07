@@ -140,7 +140,7 @@ socket.on('operation', function(data) {
 		updateTopOfPool(data['options']['rank'], data['options']['suit']);	
 	}
 	
-	if(data['turn']==player2Name) {
+	if(data['turn']==player1Name) {
 		switch(data['options']['rank']) {
 			case 'K':
 				var text1 = player1Name+' has viewed his cards';
