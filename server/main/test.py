@@ -1,9 +1,9 @@
 from . import main
-from flask import render_template, request, session
+from flask import render_template, session, request
 
 @main.route('/')
 def testFunc():
-	return "Test Flask App"
+	return render_template('login.html')
 
 @main.route('/login/')
 def login():
