@@ -349,6 +349,7 @@ def addUserToRoom(name, svgroom):
 
 
 def endGame(svgroom):
+	print "game over"
 	redis.srem("ROOM", svgroom)
 	redisKey = "ROOM_" + svgroom
 	orderPlayers = getOrderOfPlay(svgroom)
