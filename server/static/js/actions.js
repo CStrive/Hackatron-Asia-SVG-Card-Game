@@ -93,7 +93,7 @@ var swapCard = function(id) {
         } else {
             cardToThrow = player2Hand[id];
             player2Hand[id] = drawnCard;
-            showP2Hand();
+            // showP2Hand();
         }
         discardedCards[discardedCards.length] = cardToThrow;
         showDiscardedCards();
@@ -114,8 +114,8 @@ var exchangeCard = function(id) {
         tempCard = player2Hand[selectedCard];
         player2Hand[selectedCard] = player1Hand[id];
         player1Hand[id] = tempCard;
-        showP1Hand();
-        showP2Hand();
+        // showP1Hand();
+        // showP2Hand();
     }
     return selectedCard;
 }

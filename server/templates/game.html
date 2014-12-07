@@ -107,10 +107,29 @@
     </div>
 
     </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Click okay after memorising your cards to begin play</h4>
+          </div>
+          <div class="modal-body" style="height: 150px">
+            <div id="beginGameShow"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 
 <script src="{{ url_for('static', filename='lib/jQuery/jquery-2.1.1.min.js') }}"></script>
 <script src="{{ url_for('static', filename='lib/jQueryUI/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="static/lib/noty-2.3.2/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.js') }}"></script>
@@ -123,5 +142,4 @@ var player2Hand =[];
 </script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/actions.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/logic.js') }}"></script>
-<!-- <script type="text/javascript" src="static/js/cards.js"5</script> -->
 </html>
