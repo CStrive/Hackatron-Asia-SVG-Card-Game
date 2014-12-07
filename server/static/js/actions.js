@@ -100,6 +100,8 @@ var swapCard = function(id) {
         if(cardToThrow['rank']!='Q') {
            drawnCard = null;
         }
+        var el = $('#yourHand');
+        el.html('');
         showHand();
     }
     else {
