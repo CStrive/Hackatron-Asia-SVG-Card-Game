@@ -104,7 +104,13 @@ var clientActions = function(action) {
 }
 
 socket.on('operation', function(data) {
-	console.log(data);
+	// Disable deck for opponent
+	if(data['turn'] == player1Name) {
+		$('#draw').attr('disabled', false);	
+	} else {
+		$('#draw').attr('disabled', true);	
+	}
+	
 	// Call respective functions
 	// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 	if(data['name'] == 'updateDeckAndPool') {
