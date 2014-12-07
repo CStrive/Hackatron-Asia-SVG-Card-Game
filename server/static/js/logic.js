@@ -65,6 +65,7 @@ var clientActions = function(action) {
 		discardedCard = discardedCards[discardedCards.length-1];
 		data['position'] = exchangeCard(action['id']);
 		data['opponentPosition'] = action['id'];
+		data['discardedCard'] = discardedCard;
 	}
 	if (discardedCard['rank'] == 'Q' && action['name'] != 'exchange') {
 		return;
