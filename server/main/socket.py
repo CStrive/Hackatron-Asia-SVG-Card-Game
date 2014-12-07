@@ -45,27 +45,27 @@ def findAvailableRoom():
 # Perform operation as per required while reading discarded and drawn card
 @socketio.on('readaction', namespace='/svg')
 def readActionPerformed(data):
-	print "action called"
 	playerName = session['name']
 	svgroom = session['room']
 	nextPlayerName = getNextPlayer(playerName, svgroom)
 
 	if isDrawnCardDiscarded(data['discardedCard'], data['drawnCard']) == True:
 		# Simplest case
-		print "Discarding drawn card"
 		responseData = createResponseDataDiscardDrawn(playerName, svgroom, data, nextPlayerName)
+		logMessage = playerName + " drew and discarded " + data['discardedCard']['rank']
+		updatePlayerLogs(logMessage, svgroom)
 
 	elif isDroppedCardFaceCards(data['discardedCard']['rank']) == True:
 		# Perform operations for face cards
-		print "Discarding face card"
 		responseData = createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName, 1)
 
 	else:
 		# Discarded card is a normal card. Hence a swap has happened
-		print "Swapping card"
 		responseData = createResponseDataSwapCard(playerName, svgroom, data, nextPlayerName)
+		logMessage = playerName + " swapped the card drawn with the card at " + str(data['position'])
+		updatePlayerLogs(logMessage, svgroom)
 
-	print responseData
+	# print responseData
 	emit('operation', responseData, room=svgroom)
 
 
@@ -114,15 +114,21 @@ def createResponseDataFaceCard(playerName, svgroom, data, nextPlayerName, swap):
 	cardRank = data['discardedCard']['rank']
 	if cardRank == '10':
 		responseData = returnOpponentCards(playerName, svgroom, data, nextPlayerName, swap)
+		logMessage = playerName + " viewed the cards of " + nextPlayerName
 	elif cardRank == 'J':
 		responseData = returnShuffleOpponent(playerName, svgroom, data, nextPlayerName, swap)
+		logMessage = playerName + " shuffled " + nextPlayerName + "'s cards"
 	elif cardRank == 'Q':
 		responseData = returnExchangeCards(playerName, svgroom, data, nextPlayerName, swap)
+		logMessage = playerName + " exchanged their card at " + str(data['position']) + " position with " + nextPlayerName + "'s card at the position " + str(data['opponentPosition'])
 	elif cardRank == 'K':
 		responseData = returnSelfCards(playerName, svgroom, data, nextPlayerName, swap)
+		logMessage = playerName + " viewed his own cards"
 	else:
 		responseData = {}
+		logMessage = ""
 
+	updatePlayerLogs(logMessage, svgroom)
 	return responseData
 
 
@@ -216,8 +222,6 @@ def swapCard(playerName, svgroom, removePosition, drawnCard):
 	newCardRank = drawnCard['rank']
 	newCardSuit = drawnCard['suit']
 
-	print playerName
-	print redis.hget("USER_CARDS", playerName)
 	currentCards = json.loads( redis.hget("USER_CARDS", playerName) )
 	# removePostion is an integer [1,3]
 	newCards = currentCards
@@ -345,16 +349,20 @@ def addUserToRoom(name, svgroom):
 
 
 def endGame(svgroom):
+	print "game over"
 	redis.srem("ROOM", svgroom)
 	redisKey = "ROOM_" + svgroom
 	orderPlayers = getOrderOfPlay(svgroom)
 
-	endGameCards = {}
+	endGameCards = []
 
 	for x in range(0, NUM_PLAYERS_ROOM):
 		for player in players:
 			if player.session['name'] == orderPlayers[x]:
-				endGameCards[orderPlayers[x]] = redis.hget("USER_CARDS", player.session['name'])
+				thisPlayer = {}
+				thisPlayer['name'] = player.session['name']
+				thisPlayer['cards'] = redis.hget("USER_CARDS", player.session['name'])
+				endGameCards.append(thisPlayer)
 				redis.hdel("USER_CARDS", player.session['name'])
 				redis.srem(redisKey, player.session['name'])
 
@@ -424,7 +432,7 @@ def cardToBeDropped(message):
 
 # This function is supposed to send action performed to all players
 def updatePlayerLogs(action, svgroom):
-	emit('log', {'data':action} , room=svgroom)
+	emit('log', action , room=svgroom)
 
 
 # This function is supposed to inform the other clients of the cards to be removed

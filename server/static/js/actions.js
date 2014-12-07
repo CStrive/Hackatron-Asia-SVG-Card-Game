@@ -25,10 +25,6 @@ var doDrawCard = function(){
         showError('Error');
         return;
     }
-    else if (cardDeck.count() == 0) {
-        decideWinner();
-        return;
-    }
     drawnCard = c;
     showHand();
     return drawnCard;
@@ -100,6 +96,8 @@ var swapCard = function(id) {
         if(cardToThrow['rank']!='Q') {
            drawnCard = null;
         }
+        var el = $('#yourHand');
+        el.html('');
         showHand();
     }
     else {
