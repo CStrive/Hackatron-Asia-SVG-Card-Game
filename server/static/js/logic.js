@@ -53,6 +53,38 @@ socket.on('start', function(msg) {
 });
 
 
+socket.on('endGame', function(msg) {
+	data = msg['data'];
+
+	if(data[0]['name'] == player2Name) {
+		for(var i=0; i<3;i++) {
+			player2Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+			popCardFromDeck(player2Hand[i]['rank'], player2Hand[i]['suit']);
+		}
+
+		for(var i=0; i<3;i++) {
+			player1Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+			popCardFromDeck(player1Hand[i]['rank'], player1Hand[i]['suit']);
+		}
+	}
+	else {
+		for(var i=0; i<3;i++) {
+			player2Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+			popCardFromDeck(player2Hand[i]['rank'], player2Hand[i]['suit']);
+		}
+
+		for(var i=0; i<3;i++) {
+			player1Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+			popCardFromDeck(player1Hand[i]['rank'], player1Hand[i]['suit']);
+		}
+	}
+
+	showP1Hand();
+	showP2Hand();
+
+	decideWinner();
+});
+
 var clientActions = function(action) {
 	console.log("client action was triggered");
 	var discardedCard = {};
@@ -115,12 +147,18 @@ socket.on('operation', function(data) {
 				var n = noty({text: text1, layout: 'top', type:'information'});
 				break;
 			case 'Q':
-				var text2 = player1Name+" has switched his card number " + data['options']['opp'] + "with you card number " + data['options']['you']; 
+				var text2 = player1Name+" has switched his card number " + data['options']['opponentPosition'] + "with you card number " + data['options']['position']; 
+				tempCard = player2Hand[parseInt(position)];
+				player2Hand[parseInt(position)] = player1Hand[parseInt(opponentPosition)];
+				player1Hand[parseInt(opponentPosition)] = tempCard;
 				var n = noty({text: text2, layout: 'top', type:'information'});
 				break;
 			case 'J':
 				var text3 = player1Name+' has shuffled your cards';
 				var n = noty({text: text3, layout: 'top', type:'information'});
+				for(var i=0; i<3;i++) {
+					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
+				}
 				break;
 			case '10':
 				var text4 = player1Name +' has viewed your cards';
