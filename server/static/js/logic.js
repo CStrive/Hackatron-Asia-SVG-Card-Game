@@ -26,24 +26,20 @@ socket.on('start', function(msg) {
 	if(data[0]['name'] == player2Name) {
 		for(var i=0; i<3;i++) {
 			player2Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
-			popCardFromDeck(player2Hand[i]['rank'], player2Hand[i]['suit']);
 		}
 
 		for(var i=0; i<3;i++) {
 			player1Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
-			popCardFromDeck(player1Hand[i]['rank'], player1Hand[i]['suit']);
 		}
 		player1Name = data[1]['name'];
 	}
 	else {
 		for(var i=0; i<3;i++) {
 			player2Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
-			popCardFromDeck(player2Hand[i]['rank'], player2Hand[i]['suit']);
 		}
 
 		for(var i=0; i<3;i++) {
 			player1Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
-			popCardFromDeck(player1Hand[i]['rank'], player1Hand[i]['suit']);
 		}
 		player1Name = data[0]['name'];
 	}
@@ -136,13 +132,7 @@ var clientActions = function(action) {
 }
 
 socket.on('operation', function(data) {
-	// Disable deck for opponent
-	if(data['turn'] == player1Name) {
-		$('#draw').attr('disabled', false);	
-	} else {
-		$('#draw').attr('disabled', true);	
-	}
-	
+	console.log(data);
 	// Call respective functions
 	// 1. Update the deck (by removing the drawn card) and pool (by showing the latest card that was discarded to pool)
 	if(data['name'] == 'updateDeckAndPool') {
@@ -177,6 +167,11 @@ socket.on('operation', function(data) {
 		}
 	}
 });
+
+socket.on('log', function(data){
+	$('#feed').html(data);
+});
+
 function closeFace(id) {
 	// Replace with a close card image
 	closeCard(id);
