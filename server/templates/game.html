@@ -114,6 +114,12 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/playingCards.ui.js') }}"></script>
+<script type="text/javascript">
+  var discardedCards = [];
+  var drawnCard = null;
+  var player1Hand =[];
+var player2Hand =[];
+</script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/actions.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/logic.js') }}"></script>
 <!-- <script type="text/javascript" src="static/js/cards.js"5</script> -->
