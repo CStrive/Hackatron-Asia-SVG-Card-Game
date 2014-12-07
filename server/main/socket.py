@@ -234,7 +234,7 @@ def swapCard(playerName, svgroom, removePosition, drawnCard):
 # This function will be called only by the client who is performing the action when they get Q
 # In this user will specify the card number of the other player whose card will be swapped
 # User provides: card number to be swapped, player with whom to swap and the location of the card
-def exchangeCard(playerName, position, opponent, opponentPosition):
+def exchangeCards(playerName, position, opponent, opponentPosition):
 	userCardNumber = message['usercard']
 	playerSwapCardNumber = message['playercard']
 	playerSwap = message['player']
