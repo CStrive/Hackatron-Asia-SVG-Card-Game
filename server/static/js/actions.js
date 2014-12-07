@@ -26,6 +26,7 @@ var doDrawCard = function(){
         return;
     }
     drawnCard = c;
+    spCard = c;
     showHand();
     return drawnCard;
 }
@@ -94,10 +95,9 @@ var swapCard = function(id) {
         discardedCards[discardedCards.length] = cardToThrow;
         showDiscardedCards();
         if(cardToThrow['rank']!='Q') {
-           drawnCard = null;
+          spCard = drawnCard;
         }
-        var el = $('#yourHand');
-        el.html('');
+        drawnCard = null;
         showHand();
     }
     else {

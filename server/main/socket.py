@@ -163,7 +163,7 @@ def returnExchangeCards(playerName, svgroom, data, nextPlayerName, swap):
 		swapCard(playerName, svgroom, data['position'], data['drawnCard'])
 
 	# using nextPlayerName here only for 2 player
-	exchangeCards(playerName, data['position'], nextPlayerName, data['opponentPosition'])
+	exchangeCard(playerName, data['position'], nextPlayerName, data['opponentPosition'])
 	cards = json.loads( redis.hget("USER_CARDS", playerName) )
 	responseData['cards'] = cards['cards']
 
@@ -235,10 +235,6 @@ def swapCard(playerName, svgroom, removePosition, drawnCard):
 # In this user will specify the card number of the other player whose card will be swapped
 # User provides: card number to be swapped, player with whom to swap and the location of the card
 def exchangeCard(playerName, position, opponent, opponentPosition):
-	userCardNumber = message['usercard']
-	playerSwapCardNumber = message['playercard']
-	playerSwap = message['player']
-
 	currentMe = json.loads( redis.hget("USER_CARDS", playerName) )
 	currentOpp = json.loads( redis.hget("USER_CARDS", opponent) )
 	
