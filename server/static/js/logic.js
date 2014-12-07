@@ -196,6 +196,7 @@ socket.on('operation', function(data) {
 			  	cardKing.append(player2Hand[1].getHTML());
 			  	cardKing.append(player2Hand[2].getHTML());
 				$('#forKing').modal('show');
+				cardKing = undefined;
 				break;
 			case '10':
 				var card10 = $('#for10');
@@ -206,6 +207,7 @@ socket.on('operation', function(data) {
 			  	card10.append(player2Hand[1].getHTML());
 			  	card10.append(player2Hand[2].getHTML());
 			  	$('#forTen').modal('show');
+			  	card10 = undefined;
 			  	break;
 		}
 	}
