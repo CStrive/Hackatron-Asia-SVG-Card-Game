@@ -146,11 +146,16 @@ socket.on('operation', function(data) {
 		updateTopOfPool(data['options']['rank'], data['options']['suit']);	
 	}
 	
-	if(data['turn']==player2Name) {
+	if(data['turn']==player1Name) {
 		switch(data['options']['rank']) {
 			case 'K':
+				console.log("comes to K");
 				var text1 = player1Name+' has viewed his cards';
-				var n = noty({text: text1, layout: 'top', type:'information'});
+				var n = noty({text: text1, layout: 'top', type:'information'});	
+				var cardKing = $('#forK');
+				for(var i=0; i<3;i++) {
+					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
+				}
 				break;
 			case 'Q':
 				var text2 = player1Name+" has switched his card number " + data['options']['opponentPosition'] + "with you card number " + data['options']['position']; 
@@ -167,9 +172,37 @@ socket.on('operation', function(data) {
 				}
 				break;
 			case '10':
+				console.log("comes to 10");
 				var text4 = player1Name +' has viewed your cards';
 				var n = noty({text: text4, layout: 'top', type:'information'});
+				for(var i=0; i<3;i++) {
+					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
+				}
 				break;
+		}
+	} else {
+		switch(data['options']['rank']) {
+			case 'K':
+				console.log("comes to K");	
+				var cardKing = $('#forK');
+				for(var i=0; i<3;i++) {
+					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
+				}
+			  	cardKing.append(player2Hand[0].getHTML());
+			  	cardKing.append(player2Hand[1].getHTML());
+			  	cardKing.append(player2Hand[2].getHTML());
+				$('#forKing').modal('show');
+				break;
+			case '10':
+				var card10 = $('#for10');
+				for(var i=0; i<3;i++) {
+					player2Hand[i] = playingCards.card(data['cards'][i]['rank'], data['cards'][i]['suit']);
+				}
+				card10.append(player2Hand[0].getHTML());
+			  	card10.append(player2Hand[1].getHTML());
+			  	card10.append(player2Hand[2].getHTML());
+			  	$('#forTen').modal('show');
+			  	break;
 		}
 	}
 });
