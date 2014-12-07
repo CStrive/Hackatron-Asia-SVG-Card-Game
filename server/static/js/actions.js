@@ -22,7 +22,11 @@ var showDiscardedCards = function(){
 var doDrawCard = function(){
     var c = cardDeck.draw();
     if(!c){
-        showError('no more cards');
+        showError('Error');
+        return;
+    }
+    else if (cardDeck.count() == 0) {
+        decideWinner();
         return;
     }
     drawnCard = c;
@@ -93,7 +97,9 @@ var swapCard = function(id) {
         }
         discardedCards[discardedCards.length] = cardToThrow;
         showDiscardedCards();
-        drawnCard = null;
+        if(cardToThrow['rank']!='Q') {
+           drawnCard = null;
+        }
         showHand();
     }
     else {
@@ -122,9 +128,12 @@ function decideWinner() {
     var p2HandValue = computeHandValue(player2Hand);
     if (p1HandValue < p2HandValue) {
         console.log("P1 wins!");
+        alert("You lost");
     } else if (p1HandValue > p2HandValue) {
+        alert("You won");
         console.log("P2 wins!");
     } else {
+        alert("Tie");
         console.log("Tie!");
     }    
 }

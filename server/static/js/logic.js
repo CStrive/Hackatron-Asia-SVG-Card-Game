@@ -26,20 +26,24 @@ socket.on('start', function(msg) {
 	if(data[0]['name'] == player2Name) {
 		for(var i=0; i<3;i++) {
 			player2Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+			popCardFromDeck(player2Hand[i]['rank'], player2Hand[i]['suit']);
 		}
 
 		for(var i=0; i<3;i++) {
 			player1Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+			popCardFromDeck(player1Hand[i]['rank'], player2Hand[i]['suit']);
 		}
 		player1Name = data[1]['name'];
 	}
 	else {
 		for(var i=0; i<3;i++) {
 			player2Hand[i] = playingCards.card(data[1]['cards'][i]['rank'], data[1]['cards'][i]['suit']);
+			popCardFromDeck(player2Hand[i]['rank'], player2Hand[i]['suit']);
 		}
 
 		for(var i=0; i<3;i++) {
 			player1Hand[i] = playingCards.card(data[0]['cards'][i]['rank'], data[0]['cards'][i]['suit']);
+			popCardFromDeck(player1Hand[i]['rank'], player2Hand[i]['suit']);
 		}
 		player1Name = data[0]['name'];
 	}
@@ -65,6 +69,7 @@ var clientActions = function(action) {
 		discardedCard = discardedCards[discardedCards.length-1];
 		data['position'] = exchangeCard(action['id']);
 		data['opponentPosition'] = action['id'];
+		data['discardedCard'] = discardedCard;
 	}
 	if (discardedCard['rank'] == 'Q' && action['name'] != 'exchange') {
 		return;
